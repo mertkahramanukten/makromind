@@ -1,0 +1,122 @@
+{
+  "common": {
+    "loading": "Laden...",
+    "ok": "OK",
+    "cancel": "Annuleren",
+    "save": "Opslaan",
+    "delete": "Verwijderen",
+    "edit": "Bewerken",
+    "view": "Bekijken",
+    "search": "Zoeken",
+    "filter": "Filteren",
+    "sort": "Sorteren",
+    "refresh": "Vernieuwen",
+    "logout": "Uitloggen",
+    "error": "Fout",
+    "success": "Succes",
+    "warning": "Waarschuwing",
+    "info": "Informatie"
+  },
+  "auth": {
+    "welcome": "Welkom",
+    "loginSubtitle": "Log in op uw account",
+    "createAccount": "Account aanmaken",
+    "registerSubtitle": "Word lid van het Fourth platform",
+    "email": "E-mail",
+    "emailPlaceholder": "Voer uw e-mail in",
+    "password": "Wachtwoord",
+    "passwordPlaceholder": "Voer uw wachtwoord in",
+    "confirmPassword": "Wachtwoord bevestigen",
+    "confirmPasswordPlaceholder": "Bevestig uw wachtwoord",
+    "firstName": "Voornaam",
+    "firstNamePlaceholder": "Voer uw voornaam in",
+    "lastName": "Achternaam",
+    "lastNamePlaceholder": "Voer uw achternaam in",
+    "username": "Gebruikersnaam",
+    "usernamePlaceholder": "Kies een gebruikersnaam",
+    "login": "Inloggen",
+    "register": "Registreren",
+    "forgotPassword": "Wachtwoord vergeten?",
+    "forgotPasswordSubtitle": "Voer uw e-mail in om uw wachtwoord te resetten",
+    "sendResetLink": "Reset-link verzenden",
+    "backToLogin": "Terug naar inloggen",
+    "noAccount": "Geen account?",
+    "haveAccount": "Al een account?",
+    "fillAllFields": "Vul alle velden in",
+    "passwordsDoNotMatch": "Wachtwoorden komen niet overeen",
+    "passwordTooShort": "Wachtwoord moet minimaal 6 tekens zijn",
+    "enterEmail": "Voer uw e-mail in",
+    "resetPasswordSent": "Reset-link verzonden",
+    "resetPasswordMessage": "Controleer uw e-mail voor reset-instructies",
+    "resetPasswordError": "Reset-link verzenden mislukt"
+  },
+  "navigation": {
+    "home": "Home",
+    "experts": "Experts",
+    "questions": "Vragen",
+    "articles": "Artikelen",
+    "profile": "Profiel"
+  },
+  "home": {
+    "welcome": "Welkom",
+    "subtitle": "Uw AI-aangedreven expertplatform",
+    "platformStats": "Platform statistieken",
+    "quickActions": "Snelle acties",
+    "recentActivity": "Recente activiteit",
+    "noRecentActivity": "Geen recente activiteit",
+    "findExpert": "Expert vinden",
+    "findExpertDesc": "Verbind met branche-experts",
+    "askQuestion": "Vraag stellen",
+    "askQuestionDesc": "Krijg antwoorden van experts",
+    "readArticles": "Artikelen lezen",
+    "readArticlesDesc": "Leer van experts",
+    "startChat": "Chat starten",
+    "startChatDesc": "Chat met AI-assistent",
+    "totalExperts": "Totaal experts",
+    "questionsAnswered": "Beantwoorde vragen",
+    "articlesPublished": "Gepubliceerde artikelen",
+    "activeUsers": "Actieve gebruikers"
+  },
+  "experts": {
+    "title": "Experts",
+    "comingSoon": "Expert directory komt binnenkort"
+  },
+  "questions": {
+    "title": "Vragen",
+    "comingSoon": "Vraag-antwoord systeem komt binnenkort"
+  },
+  "articles": {
+    "title": "Artikelen",
+    "comingSoon": "Artikelbibliotheek komt binnenkort"
+  },
+  "chat": {
+    "title": "Chat",
+    "comingSoon": "AI chat komt binnenkort"
+  },
+  "settings": {
+    "title": "Instellingen",
+    "comingSoon": "Instellingenpaneel komt binnenkort"
+  },
+  "expertDetail": {
+    "title": "Expert details",
+    "comingSoon": "Expert profiel komt binnenkort"
+  },
+  "articleDetail": {
+    "title": "Artikel details",
+    "comingSoon": "Artikel viewer komt binnenkort"
+  },
+  "questionDetail": {
+    "title": "Vraag details",
+    "comingSoon": "Vraag thread komt binnenkort"
+  },
+  "profile": {
+    "logout": "Uitloggen",
+    "logoutConfirm": "Weet u zeker dat u wilt uitloggen?",
+    "editProfile": "Profiel bewerken",
+    "settings": "Instellingen",
+    "language": "Taal",
+    "notifications": "Meldingen",
+    "help": "Hulp en ondersteuning",
+    "about": "Over"
+  }
+}

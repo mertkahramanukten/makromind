@@ -1,0 +1,122 @@
+{
+  "common": {
+    "loading": "Laddar...",
+    "ok": "OK",
+    "cancel": "Avbryt",
+    "save": "Spara",
+    "delete": "Ta bort",
+    "edit": "Redigera",
+    "view": "Visa",
+    "search": "Sök",
+    "filter": "Filtrera",
+    "sort": "Sortera",
+    "refresh": "Uppdatera",
+    "logout": "Logga ut",
+    "error": "Fel",
+    "success": "Framgång",
+    "warning": "Varning",
+    "info": "Information"
+  },
+  "auth": {
+    "welcome": "Välkommen",
+    "loginSubtitle": "Logga in på ditt konto",
+    "createAccount": "Skapa konto",
+    "registerSubtitle": "Gå med i Fourth-plattformen",
+    "email": "E-post",
+    "emailPlaceholder": "Ange din e-post",
+    "password": "Lösenord",
+    "passwordPlaceholder": "Ange ditt lösenord",
+    "confirmPassword": "Bekräfta lösenord",
+    "confirmPasswordPlaceholder": "Bekräfta ditt lösenord",
+    "firstName": "Förnamn",
+    "firstNamePlaceholder": "Ange ditt förnamn",
+    "lastName": "Efternamn",
+    "lastNamePlaceholder": "Ange ditt efternamn",
+    "username": "Användarnamn",
+    "usernamePlaceholder": "Välj ett användarnamn",
+    "login": "Logga in",
+    "register": "Registrera",
+    "forgotPassword": "Glömt lösenord?",
+    "forgotPasswordSubtitle": "Ange din e-post för att återställa lösenord",
+    "sendResetLink": "Skicka återställningslänk",
+    "backToLogin": "Tillbaka till inloggning",
+    "noAccount": "Har du inget konto?",
+    "haveAccount": "Har du redan ett konto?",
+    "fillAllFields": "Fyll i alla fält",
+    "passwordsDoNotMatch": "Lösenorden matchar inte",
+    "passwordTooShort": "Lösenordet måste vara minst 6 tecken",
+    "enterEmail": "Ange din e-post",
+    "resetPasswordSent": "Återställningslänk skickad",
+    "resetPasswordMessage": "Kontrollera din e-post för återställningsinstruktioner",
+    "resetPasswordError": "Kunde inte skicka återställningslänk"
+  },
+  "navigation": {
+    "home": "Hem",
+    "experts": "Experter",
+    "questions": "Frågor",
+    "articles": "Artiklar",
+    "profile": "Profil"
+  },
+  "home": {
+    "welcome": "Välkommen",
+    "subtitle": "Din AI-drivna expertplattform",
+    "platformStats": "Plattformsstatistik",
+    "quickActions": "Snabbåtgärder",
+    "recentActivity": "Senaste aktivitet",
+    "noRecentActivity": "Ingen senaste aktivitet",
+    "findExpert": "Hitta expert",
+    "findExpertDesc": "Anslut med branschexperter",
+    "askQuestion": "Ställ fråga",
+    "askQuestionDesc": "Få svar från experter",
+    "readArticles": "Läs artiklar",
+    "readArticlesDesc": "Lär dig från experter",
+    "startChat": "Starta chatt",
+    "startChatDesc": "Chatta med AI-assistent",
+    "totalExperts": "Totalt experter",
+    "questionsAnswered": "Besvarade frågor",
+    "articlesPublished": "Publicerade artiklar",
+    "activeUsers": "Aktiva användare"
+  },
+  "experts": {
+    "title": "Experter",
+    "comingSoon": "Expertkatalog kommer snart"
+  },
+  "questions": {
+    "title": "Frågor",
+    "comingSoon": "Fråga-svar system kommer snart"
+  },
+  "articles": {
+    "title": "Artiklar",
+    "comingSoon": "Artikelsamling kommer snart"
+  },
+  "chat": {
+    "title": "Chatt",
+    "comingSoon": "AI-chatt kommer snart"
+  },
+  "settings": {
+    "title": "Inställningar",
+    "comingSoon": "Inställningspanel kommer snart"
+  },
+  "expertDetail": {
+    "title": "Expertdetaljer",
+    "comingSoon": "Expertprofil kommer snart"
+  },
+  "articleDetail": {
+    "title": "Artikeldetaljer",
+    "comingSoon": "Artikelvisare kommer snart"
+  },
+  "questionDetail": {
+    "title": "Frågedetaljer",
+    "comingSoon": "Frågetråd kommer snart"
+  },
+  "profile": {
+    "logout": "Logga ut",
+    "logoutConfirm": "Är du säker på att du vill logga ut?",
+    "editProfile": "Redigera profil",
+    "settings": "Inställningar",
+    "language": "Språk",
+    "notifications": "Notifieringar",
+    "help": "Hjälp och support",
+    "about": "Om"
+  }
+}

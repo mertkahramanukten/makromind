@@ -1,0 +1,122 @@
+{
+  "common": {
+    "loading": "Laden...",
+    "ok": "OK",
+    "cancel": "Abbrechen",
+    "save": "Speichern",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "view": "Anzeigen",
+    "search": "Suchen",
+    "filter": "Filtern",
+    "sort": "Sortieren",
+    "refresh": "Aktualisieren",
+    "logout": "Abmelden",
+    "error": "Fehler",
+    "success": "Erfolg",
+    "warning": "Warnung",
+    "info": "Information"
+  },
+  "auth": {
+    "welcome": "Willkommen",
+    "loginSubtitle": "Melden Sie sich in Ihrem Konto an",
+    "createAccount": "Konto erstellen",
+    "registerSubtitle": "Treten Sie der Fourth-Plattform bei",
+    "email": "E-Mail",
+    "emailPlaceholder": "Geben Sie Ihre E-Mail ein",
+    "password": "Passwort",
+    "passwordPlaceholder": "Geben Sie Ihr Passwort ein",
+    "confirmPassword": "Passwort bestätigen",
+    "confirmPasswordPlaceholder": "Bestätigen Sie Ihr Passwort",
+    "firstName": "Vorname",
+    "firstNamePlaceholder": "Geben Sie Ihren Vornamen ein",
+    "lastName": "Nachname",
+    "lastNamePlaceholder": "Geben Sie Ihren Nachnamen ein",
+    "username": "Benutzername",
+    "usernamePlaceholder": "Wählen Sie einen Benutzernamen",
+    "login": "Anmelden",
+    "register": "Registrieren",
+    "forgotPassword": "Passwort vergessen?",
+    "forgotPasswordSubtitle": "Geben Sie Ihre E-Mail ein, um Ihr Passwort zurückzusetzen",
+    "sendResetLink": "Reset-Link senden",
+    "backToLogin": "Zurück zur Anmeldung",
+    "noAccount": "Haben Sie kein Konto?",
+    "haveAccount": "Haben Sie bereits ein Konto?",
+    "fillAllFields": "Bitte füllen Sie alle Felder aus",
+    "passwordsDoNotMatch": "Passwörter stimmen nicht überein",
+    "passwordTooShort": "Passwort muss mindestens 6 Zeichen lang sein",
+    "enterEmail": "Bitte geben Sie Ihre E-Mail ein",
+    "resetPasswordSent": "Reset-Link gesendet",
+    "resetPasswordMessage": "Überprüfen Sie Ihre E-Mail für Passwort-Reset-Anweisungen",
+    "resetPasswordError": "Reset-Link konnte nicht gesendet werden"
+  },
+  "navigation": {
+    "home": "Startseite",
+    "experts": "Experten",
+    "questions": "Fragen",
+    "articles": "Artikel",
+    "profile": "Profil"
+  },
+  "home": {
+    "welcome": "Willkommen",
+    "subtitle": "Ihre KI-gestützte Expertenplattform",
+    "platformStats": "Plattform-Statistiken",
+    "quickActions": "Schnellaktionen",
+    "recentActivity": "Letzte Aktivitäten",
+    "noRecentActivity": "Keine letzten Aktivitäten",
+    "findExpert": "Experte finden",
+    "findExpertDesc": "Verbinden Sie sich mit Branchenexperten",
+    "askQuestion": "Frage stellen",
+    "askQuestionDesc": "Erhalten Sie Expertenantworten",
+    "readArticles": "Artikel lesen",
+    "readArticlesDesc": "Lernen Sie von Experten",
+    "startChat": "Chat starten",
+    "startChatDesc": "Chatten Sie mit dem KI-Assistenten",
+    "totalExperts": "Gesamte Experten",
+    "questionsAnswered": "Beantwortete Fragen",
+    "articlesPublished": "Veröffentlichte Artikel",
+    "activeUsers": "Aktive Benutzer"
+  },
+  "experts": {
+    "title": "Experten",
+    "comingSoon": "Expertenverzeichnis kommt bald"
+  },
+  "questions": {
+    "title": "Fragen",
+    "comingSoon": "Frage-Antwort-System kommt bald"
+  },
+  "articles": {
+    "title": "Artikel",
+    "comingSoon": "Artikelbibliothek kommt bald"
+  },
+  "chat": {
+    "title": "Chat",
+    "comingSoon": "KI-Chat kommt bald"
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "comingSoon": "Einstellungsbereich kommt bald"
+  },
+  "expertDetail": {
+    "title": "Experten-Details",
+    "comingSoon": "Expertenprofil kommt bald"
+  },
+  "articleDetail": {
+    "title": "Artikel-Details",
+    "comingSoon": "Artikel-Viewer kommt bald"
+  },
+  "questionDetail": {
+    "title": "Frage-Details",
+    "comingSoon": "Frage-Thread kommt bald"
+  },
+  "profile": {
+    "logout": "Abmelden",
+    "logoutConfirm": "Sind Sie sicher, dass Sie sich abmelden möchten?",
+    "editProfile": "Profil bearbeiten",
+    "settings": "Einstellungen",
+    "language": "Sprache",
+    "notifications": "Benachrichtigungen",
+    "help": "Hilfe & Support",
+    "about": "Über"
+  }
+}

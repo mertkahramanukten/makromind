@@ -1,0 +1,122 @@
+{
+  "common": {
+    "loading": "読み込み中...",
+    "ok": "OK",
+    "cancel": "キャンセル",
+    "save": "保存",
+    "delete": "削除",
+    "edit": "編集",
+    "view": "表示",
+    "search": "検索",
+    "filter": "フィルター",
+    "sort": "並び替え",
+    "refresh": "更新",
+    "logout": "ログアウト",
+    "error": "エラー",
+    "success": "成功",
+    "warning": "警告",
+    "info": "情報"
+  },
+  "auth": {
+    "welcome": "ようこそ",
+    "loginSubtitle": "アカウントにログイン",
+    "createAccount": "アカウント作成",
+    "registerSubtitle": "Fourthプラットフォームに参加",
+    "email": "メール",
+    "emailPlaceholder": "メールアドレスを入力",
+    "password": "パスワード",
+    "passwordPlaceholder": "パスワードを入力",
+    "confirmPassword": "パスワード確認",
+    "confirmPasswordPlaceholder": "パスワードを確認",
+    "firstName": "名",
+    "firstNamePlaceholder": "名を入力",
+    "lastName": "姓",
+    "lastNamePlaceholder": "姓を入力",
+    "username": "ユーザー名",
+    "usernamePlaceholder": "ユーザー名を選択",
+    "login": "ログイン",
+    "register": "登録",
+    "forgotPassword": "パスワードを忘れましたか？",
+    "forgotPasswordSubtitle": "パスワードリセット用のメールアドレスを入力",
+    "sendResetLink": "リセットリンクを送信",
+    "backToLogin": "ログインに戻る",
+    "noAccount": "アカウントをお持ちでないですか？",
+    "haveAccount": "すでにアカウントをお持ちですか？",
+    "fillAllFields": "すべてのフィールドを入力してください",
+    "passwordsDoNotMatch": "パスワードが一致しません",
+    "passwordTooShort": "パスワードは6文字以上である必要があります",
+    "enterEmail": "メールアドレスを入力してください",
+    "resetPasswordSent": "リセットリンクを送信しました",
+    "resetPasswordMessage": "リセット手順についてはメールをご確認ください",
+    "resetPasswordError": "リセットリンクの送信に失敗しました"
+  },
+  "navigation": {
+    "home": "ホーム",
+    "experts": "エキスパート",
+    "questions": "質問",
+    "articles": "記事",
+    "profile": "プロフィール"
+  },
+  "home": {
+    "welcome": "ようこそ",
+    "subtitle": "AI搭載エキスパートプラットフォーム",
+    "platformStats": "プラットフォーム統計",
+    "quickActions": "クイックアクション",
+    "recentActivity": "最近のアクティビティ",
+    "noRecentActivity": "最近のアクティビティはありません",
+    "findExpert": "エキスパートを探す",
+    "findExpertDesc": "業界のエキスパートとつながる",
+    "askQuestion": "質問する",
+    "askQuestionDesc": "エキスパートから回答を得る",
+    "readArticles": "記事を読む",
+    "readArticlesDesc": "エキスパートから学ぶ",
+    "startChat": "チャットを開始",
+    "startChatDesc": "AIアシスタントとチャット",
+    "totalExperts": "エキスパート総数",
+    "questionsAnswered": "回答済み質問",
+    "articlesPublished": "公開記事",
+    "activeUsers": "アクティブユーザー"
+  },
+  "experts": {
+    "title": "エキスパート",
+    "comingSoon": "エキスパートディレクトリ近日公開"
+  },
+  "questions": {
+    "title": "質問",
+    "comingSoon": "Q&Aシステム近日公開"
+  },
+  "articles": {
+    "title": "記事",
+    "comingSoon": "記事ライブラリ近日公開"
+  },
+  "chat": {
+    "title": "チャット",
+    "comingSoon": "AIチャット近日公開"
+  },
+  "settings": {
+    "title": "設定",
+    "comingSoon": "設定パネル近日公開"
+  },
+  "expertDetail": {
+    "title": "エキスパート詳細",
+    "comingSoon": "エキスパートプロフィール近日公開"
+  },
+  "articleDetail": {
+    "title": "記事詳細",
+    "comingSoon": "記事ビューアー近日公開"
+  },
+  "questionDetail": {
+    "title": "質問詳細",
+    "comingSoon": "質問スレッド近日公開"
+  },
+  "profile": {
+    "logout": "ログアウト",
+    "logoutConfirm": "ログアウトしてもよろしいですか？",
+    "editProfile": "プロフィール編集",
+    "settings": "設定",
+    "language": "言語",
+    "notifications": "通知",
+    "help": "ヘルプとサポート",
+    "about": "について"
+  }
+}

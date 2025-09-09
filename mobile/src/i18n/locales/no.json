@@ -1,0 +1,122 @@
+{
+  "common": {
+    "loading": "Laster...",
+    "ok": "OK",
+    "cancel": "Avbryt",
+    "save": "Lagre",
+    "delete": "Slett",
+    "edit": "Rediger",
+    "view": "Vis",
+    "search": "Søk",
+    "filter": "Filtrer",
+    "sort": "Sorter",
+    "refresh": "Oppdater",
+    "logout": "Logg ut",
+    "error": "Feil",
+    "success": "Suksess",
+    "warning": "Advarsel",
+    "info": "Informasjon"
+  },
+  "auth": {
+    "welcome": "Velkommen",
+    "loginSubtitle": "Logg inn på kontoen din",
+    "createAccount": "Opprett konto",
+    "registerSubtitle": "Bli med i Fourth-plattformen",
+    "email": "E-post",
+    "emailPlaceholder": "Skriv inn din e-post",
+    "password": "Passord",
+    "passwordPlaceholder": "Skriv inn passordet ditt",
+    "confirmPassword": "Bekreft passord",
+    "confirmPasswordPlaceholder": "Bekreft passordet ditt",
+    "firstName": "Fornavn",
+    "firstNamePlaceholder": "Skriv inn fornavnet ditt",
+    "lastName": "Etternavn",
+    "lastNamePlaceholder": "Skriv inn etternavnet ditt",
+    "username": "Brukernavn",
+    "usernamePlaceholder": "Velg et brukernavn",
+    "login": "Logg inn",
+    "register": "Registrer",
+    "forgotPassword": "Glemt passord?",
+    "forgotPasswordSubtitle": "Skriv inn din e-post for å tilbakestille passord",
+    "sendResetLink": "Send tilbakestillingslenke",
+    "backToLogin": "Tilbake til innlogging",
+    "noAccount": "Har du ikke en konto?",
+    "haveAccount": "Har du allerede en konto?",
+    "fillAllFields": "Fyll ut alle felt",
+    "passwordsDoNotMatch": "Passordene stemmer ikke",
+    "passwordTooShort": "Passordet må være minst 6 tegn",
+    "enterEmail": "Skriv inn din e-post",
+    "resetPasswordSent": "Tilbakestillingslenke sendt",
+    "resetPasswordMessage": "Sjekk e-posten din for tilbakestillingsinstruksjoner",
+    "resetPasswordError": "Kunne ikke sende tilbakestillingslenke"
+  },
+  "navigation": {
+    "home": "Hjem",
+    "experts": "Eksperter",
+    "questions": "Spørsmål",
+    "articles": "Artikler",
+    "profile": "Profil"
+  },
+  "home": {
+    "welcome": "Velkommen",
+    "subtitle": "Din AI-drevne ekspertplattform",
+    "platformStats": "Plattformsstatistikk",
+    "quickActions": "Hurtighandlinger",
+    "recentActivity": "Nylig aktivitet",
+    "noRecentActivity": "Ingen nylig aktivitet",
+    "findExpert": "Finn ekspert",
+    "findExpertDesc": "Koble til bransjeeksperter",
+    "askQuestion": "Still spørsmål",
+    "askQuestionDesc": "Få svar fra eksperter",
+    "readArticles": "Les artikler",
+    "readArticlesDesc": "Lær fra eksperter",
+    "startChat": "Start chat",
+    "startChatDesc": "Chat med AI-assistent",
+    "totalExperts": "Totalt eksperter",
+    "questionsAnswered": "Besvarte spørsmål",
+    "articlesPublished": "Publiserte artikler",
+    "activeUsers": "Aktive brukere"
+  },
+  "experts": {
+    "title": "Eksperter",
+    "comingSoon": "Ekspertkatalog kommer snart"
+  },
+  "questions": {
+    "title": "Spørsmål",
+    "comingSoon": "Spørsmål-svar system kommer snart"
+  },
+  "articles": {
+    "title": "Artikler",
+    "comingSoon": "Artikkelsamling kommer snart"
+  },
+  "chat": {
+    "title": "Chat",
+    "comingSoon": "AI-chat kommer snart"
+  },
+  "settings": {
+    "title": "Innstillinger",
+    "comingSoon": "Innstillingspanel kommer snart"
+  },
+  "expertDetail": {
+    "title": "Ekspertdetaljer",
+    "comingSoon": "Ekspertprofil kommer snart"
+  },
+  "articleDetail": {
+    "title": "Artikkeldetaljer",
+    "comingSoon": "Artikkelvisning kommer snart"
+  },
+  "questionDetail": {
+    "title": "Spørsmålsdetaljer",
+    "comingSoon": "Spørsmålstråd kommer snart"
+  },
+  "profile": {
+    "logout": "Logg ut",
+    "logoutConfirm": "Er du sikker på at du vil logge ut?",
+    "editProfile": "Rediger profil",
+    "settings": "Innstillinger",
+    "language": "Språk",
+    "notifications": "Varsler",
+    "help": "Hjelp og støtte",
+    "about": "Om"
+  }
+}

@@ -1,0 +1,122 @@
+{
+  "common": {
+    "loading": "Cargando...",
+    "ok": "OK",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "view": "Ver",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "sort": "Ordenar",
+    "refresh": "Actualizar",
+    "logout": "Cerrar sesión",
+    "error": "Error",
+    "success": "Éxito",
+    "warning": "Advertencia",
+    "info": "Información"
+  },
+  "auth": {
+    "welcome": "Bienvenido",
+    "loginSubtitle": "Inicia sesión en tu cuenta",
+    "createAccount": "Crear cuenta",
+    "registerSubtitle": "Únete a la plataforma Fourth",
+    "email": "Correo electrónico",
+    "emailPlaceholder": "Ingresa tu correo electrónico",
+    "password": "Contraseña",
+    "passwordPlaceholder": "Ingresa tu contraseña",
+    "confirmPassword": "Confirmar contraseña",
+    "confirmPasswordPlaceholder": "Confirma tu contraseña",
+    "firstName": "Nombre",
+    "firstNamePlaceholder": "Ingresa tu nombre",
+    "lastName": "Apellido",
+    "lastNamePlaceholder": "Ingresa tu apellido",
+    "username": "Nombre de usuario",
+    "usernamePlaceholder": "Elige un nombre de usuario",
+    "login": "Iniciar sesión",
+    "register": "Registrarse",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "forgotPasswordSubtitle": "Ingresa tu correo para restablecer tu contraseña",
+    "sendResetLink": "Enviar enlace de restablecimiento",
+    "backToLogin": "Volver al inicio de sesión",
+    "noAccount": "¿No tienes una cuenta?",
+    "haveAccount": "¿Ya tienes una cuenta?",
+    "fillAllFields": "Por favor completa todos los campos",
+    "passwordsDoNotMatch": "Las contraseñas no coinciden",
+    "passwordTooShort": "La contraseña debe tener al menos 6 caracteres",
+    "enterEmail": "Por favor ingresa tu correo electrónico",
+    "resetPasswordSent": "Enlace de restablecimiento enviado",
+    "resetPasswordMessage": "Revisa tu correo para las instrucciones de restablecimiento",
+    "resetPasswordError": "Error al enviar el enlace de restablecimiento"
+  },
+  "navigation": {
+    "home": "Inicio",
+    "experts": "Expertos",
+    "questions": "Preguntas",
+    "articles": "Artículos",
+    "profile": "Perfil"
+  },
+  "home": {
+    "welcome": "Bienvenido",
+    "subtitle": "Tu plataforma de expertos impulsada por IA",
+    "platformStats": "Estadísticas de la plataforma",
+    "quickActions": "Acciones rápidas",
+    "recentActivity": "Actividad reciente",
+    "noRecentActivity": "Sin actividad reciente",
+    "findExpert": "Encontrar experto",
+    "findExpertDesc": "Conecta con expertos de la industria",
+    "askQuestion": "Hacer pregunta",
+    "askQuestionDesc": "Obtén respuestas de expertos",
+    "readArticles": "Leer artículos",
+    "readArticlesDesc": "Aprende de expertos",
+    "startChat": "Iniciar chat",
+    "startChatDesc": "Chatea con el asistente de IA",
+    "totalExperts": "Total de expertos",
+    "questionsAnswered": "Preguntas respondidas",
+    "articlesPublished": "Artículos publicados",
+    "activeUsers": "Usuarios activos"
+  },
+  "experts": {
+    "title": "Expertos",
+    "comingSoon": "Directorio de expertos próximamente"
+  },
+  "questions": {
+    "title": "Preguntas",
+    "comingSoon": "Sistema de preguntas y respuestas próximamente"
+  },
+  "articles": {
+    "title": "Artículos",
+    "comingSoon": "Biblioteca de artículos próximamente"
+  },
+  "chat": {
+    "title": "Chat",
+    "comingSoon": "Chat con IA próximamente"
+  },
+  "settings": {
+    "title": "Configuración",
+    "comingSoon": "Panel de configuración próximamente"
+  },
+  "expertDetail": {
+    "title": "Detalles del experto",
+    "comingSoon": "Perfil de experto próximamente"
+  },
+  "articleDetail": {
+    "title": "Detalles del artículo",
+    "comingSoon": "Visor de artículos próximamente"
+  },
+  "questionDetail": {
+    "title": "Detalles de la pregunta",
+    "comingSoon": "Hilo de conversación próximamente"
+  },
+  "profile": {
+    "logout": "Cerrar sesión",
+    "logoutConfirm": "¿Estás seguro de que quieres cerrar sesión?",
+    "editProfile": "Editar perfil",
+    "settings": "Configuración",
+    "language": "Idioma",
+    "notifications": "Notificaciones",
+    "help": "Ayuda y soporte",
+    "about": "Acerca de"
+  }
+}

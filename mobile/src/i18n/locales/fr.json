@@ -1,0 +1,122 @@
+{
+  "common": {
+    "loading": "Chargement...",
+    "ok": "OK",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "view": "Voir",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "sort": "Trier",
+    "refresh": "Actualiser",
+    "logout": "Déconnexion",
+    "error": "Erreur",
+    "success": "Succès",
+    "warning": "Avertissement",
+    "info": "Information"
+  },
+  "auth": {
+    "welcome": "Bienvenue",
+    "loginSubtitle": "Connectez-vous à votre compte",
+    "createAccount": "Créer un compte",
+    "registerSubtitle": "Rejoignez la plateforme Fourth",
+    "email": "E-mail",
+    "emailPlaceholder": "Entrez votre e-mail",
+    "password": "Mot de passe",
+    "passwordPlaceholder": "Entrez votre mot de passe",
+    "confirmPassword": "Confirmer le mot de passe",
+    "confirmPasswordPlaceholder": "Confirmez votre mot de passe",
+    "firstName": "Prénom",
+    "firstNamePlaceholder": "Entrez votre prénom",
+    "lastName": "Nom de famille",
+    "lastNamePlaceholder": "Entrez votre nom de famille",
+    "username": "Nom d'utilisateur",
+    "usernamePlaceholder": "Choisissez un nom d'utilisateur",
+    "login": "Se connecter",
+    "register": "S'inscrire",
+    "forgotPassword": "Mot de passe oublié ?",
+    "forgotPasswordSubtitle": "Entrez votre e-mail pour réinitialiser votre mot de passe",
+    "sendResetLink": "Envoyer le lien de réinitialisation",
+    "backToLogin": "Retour à la connexion",
+    "noAccount": "Vous n'avez pas de compte ?",
+    "haveAccount": "Vous avez déjà un compte ?",
+    "fillAllFields": "Veuillez remplir tous les champs",
+    "passwordsDoNotMatch": "Les mots de passe ne correspondent pas",
+    "passwordTooShort": "Le mot de passe doit contenir au moins 6 caractères",
+    "enterEmail": "Veuillez entrer votre e-mail",
+    "resetPasswordSent": "Lien de réinitialisation envoyé",
+    "resetPasswordMessage": "Vérifiez votre e-mail pour les instructions de réinitialisation",
+    "resetPasswordError": "Échec de l'envoi du lien de réinitialisation"
+  },
+  "navigation": {
+    "home": "Accueil",
+    "experts": "Experts",
+    "questions": "Questions",
+    "articles": "Articles",
+    "profile": "Profil"
+  },
+  "home": {
+    "welcome": "Bienvenue",
+    "subtitle": "Votre plateforme d'experts alimentée par l'IA",
+    "platformStats": "Statistiques de la plateforme",
+    "quickActions": "Actions rapides",
+    "recentActivity": "Activité récente",
+    "noRecentActivity": "Aucune activité récente",
+    "findExpert": "Trouver un expert",
+    "findExpertDesc": "Connectez-vous avec des experts de l'industrie",
+    "askQuestion": "Poser une question",
+    "askQuestionDesc": "Obtenez des réponses d'experts",
+    "readArticles": "Lire des articles",
+    "readArticlesDesc": "Apprenez des experts",
+    "startChat": "Commencer le chat",
+    "startChatDesc": "Chattez avec l'assistant IA",
+    "totalExperts": "Total des experts",
+    "questionsAnswered": "Questions répondues",
+    "articlesPublished": "Articles publiés",
+    "activeUsers": "Utilisateurs actifs"
+  },
+  "experts": {
+    "title": "Experts",
+    "comingSoon": "Annuaire des experts bientôt disponible"
+  },
+  "questions": {
+    "title": "Questions",
+    "comingSoon": "Système de questions-réponses bientôt disponible"
+  },
+  "articles": {
+    "title": "Articles",
+    "comingSoon": "Bibliothèque d'articles bientôt disponible"
+  },
+  "chat": {
+    "title": "Chat",
+    "comingSoon": "Chat IA bientôt disponible"
+  },
+  "settings": {
+    "title": "Paramètres",
+    "comingSoon": "Panneau de paramètres bientôt disponible"
+  },
+  "expertDetail": {
+    "title": "Détails de l'expert",
+    "comingSoon": "Profil d'expert bientôt disponible"
+  },
+  "articleDetail": {
+    "title": "Détails de l'article",
+    "comingSoon": "Visionneuse d'articles bientôt disponible"
+  },
+  "questionDetail": {
+    "title": "Détails de la question",
+    "comingSoon": "Fil de discussion bientôt disponible"
+  },
+  "profile": {
+    "logout": "Déconnexion",
+    "logoutConfirm": "Êtes-vous sûr de vouloir vous déconnecter ?",
+    "editProfile": "Modifier le profil",
+    "settings": "Paramètres",
+    "language": "Langue",
+    "notifications": "Notifications",
+    "help": "Aide et support",
+    "about": "À propos"
+  }
+}

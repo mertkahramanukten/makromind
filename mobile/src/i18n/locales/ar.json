@@ -1,0 +1,122 @@
+{
+  "common": {
+    "loading": "جاري التحميل...",
+    "ok": "موافق",
+    "cancel": "إلغاء",
+    "save": "حفظ",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "view": "عرض",
+    "search": "بحث",
+    "filter": "تصفية",
+    "sort": "ترتيب",
+    "refresh": "تحديث",
+    "logout": "تسجيل الخروج",
+    "error": "خطأ",
+    "success": "نجح",
+    "warning": "تحذير",
+    "info": "معلومات"
+  },
+  "auth": {
+    "welcome": "مرحباً",
+    "loginSubtitle": "سجل دخولك إلى حسابك",
+    "createAccount": "إنشاء حساب",
+    "registerSubtitle": "انضم إلى منصة Fourth",
+    "email": "البريد الإلكتروني",
+    "emailPlaceholder": "أدخل بريدك الإلكتروني",
+    "password": "كلمة المرور",
+    "passwordPlaceholder": "أدخل كلمة المرور",
+    "confirmPassword": "تأكيد كلمة المرور",
+    "confirmPasswordPlaceholder": "أكد كلمة المرور",
+    "firstName": "الاسم الأول",
+    "firstNamePlaceholder": "أدخل اسمك الأول",
+    "lastName": "اسم العائلة",
+    "lastNamePlaceholder": "أدخل اسم العائلة",
+    "username": "اسم المستخدم",
+    "usernamePlaceholder": "اختر اسم مستخدم",
+    "login": "تسجيل الدخول",
+    "register": "التسجيل",
+    "forgotPassword": "نسيت كلمة المرور؟",
+    "forgotPasswordSubtitle": "أدخل بريدك الإلكتروني لإعادة تعيين كلمة المرور",
+    "sendResetLink": "إرسال رابط إعادة التعيين",
+    "backToLogin": "العودة لتسجيل الدخول",
+    "noAccount": "ليس لديك حساب؟",
+    "haveAccount": "لديك حساب بالفعل؟",
+    "fillAllFields": "يرجى ملء جميع الحقول",
+    "passwordsDoNotMatch": "كلمات المرور غير متطابقة",
+    "passwordTooShort": "كلمة المرور يجب أن تكون 6 أحرف على الأقل",
+    "enterEmail": "يرجى إدخال بريدك الإلكتروني",
+    "resetPasswordSent": "تم إرسال رابط إعادة التعيين",
+    "resetPasswordMessage": "تحقق من بريدك الإلكتروني لتعليمات إعادة التعيين",
+    "resetPasswordError": "فشل في إرسال رابط إعادة التعيين"
+  },
+  "navigation": {
+    "home": "الرئيسية",
+    "experts": "الخبراء",
+    "questions": "الأسئلة",
+    "articles": "المقالات",
+    "profile": "الملف الشخصي"
+  },
+  "home": {
+    "welcome": "مرحباً",
+    "subtitle": "منصة الخبراء المدعومة بالذكاء الاصطناعي",
+    "platformStats": "إحصائيات المنصة",
+    "quickActions": "الإجراءات السريعة",
+    "recentActivity": "النشاط الأخير",
+    "noRecentActivity": "لا يوجد نشاط حديث",
+    "findExpert": "البحث عن خبير",
+    "findExpertDesc": "تواصل مع خبراء الصناعة",
+    "askQuestion": "طرح سؤال",
+    "askQuestionDesc": "احصل على إجابات من الخبراء",
+    "readArticles": "قراءة المقالات",
+    "readArticlesDesc": "تعلم من الخبراء",
+    "startChat": "بدء المحادثة",
+    "startChatDesc": "تحدث مع مساعد الذكاء الاصطناعي",
+    "totalExperts": "إجمالي الخبراء",
+    "questionsAnswered": "الأسئلة المجابة",
+    "articlesPublished": "المقالات المنشورة",
+    "activeUsers": "المستخدمون النشطون"
+  },
+  "experts": {
+    "title": "الخبراء",
+    "comingSoon": "دليل الخبراء قريباً"
+  },
+  "questions": {
+    "title": "الأسئلة",
+    "comingSoon": "نظام الأسئلة والأجوبة قريباً"
+  },
+  "articles": {
+    "title": "المقالات",
+    "comingSoon": "مكتبة المقالات قريباً"
+  },
+  "chat": {
+    "title": "المحادثة",
+    "comingSoon": "محادثة الذكاء الاصطناعي قريباً"
+  },
+  "settings": {
+    "title": "الإعدادات",
+    "comingSoon": "لوحة الإعدادات قريباً"
+  },
+  "expertDetail": {
+    "title": "تفاصيل الخبير",
+    "comingSoon": "ملف الخبير قريباً"
+  },
+  "articleDetail": {
+    "title": "تفاصيل المقال",
+    "comingSoon": "عارض المقالات قريباً"
+  },
+  "questionDetail": {
+    "title": "تفاصيل السؤال",
+    "comingSoon": "نقاش السؤال قريباً"
+  },
+  "profile": {
+    "logout": "تسجيل الخروج",
+    "logoutConfirm": "هل أنت متأكد من أنك تريد تسجيل الخروج؟",
+    "editProfile": "تعديل الملف الشخصي",
+    "settings": "الإعدادات",
+    "language": "اللغة",
+    "notifications": "الإشعارات",
+    "help": "المساعدة والدعم",
+    "about": "حول"
+  }
+}
