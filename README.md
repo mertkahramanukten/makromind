@@ -21,6 +21,7 @@ Fourth, sektörel uzmanlık platformları ekosistemi oluşturarak aşağıdaki i
 - [🤖 AI Eğitim Planı](docs/ai-training.md) - Yapay zeka model eğitimi detayları
 - [🔧 Teknoloji Stack](docs/tech-stack.md) - Kullanılan teknolojiler
 - [📊 Sistem Mimarisi](docs/system-architecture.md) - Mermaid diagramları
+- [🔄 Flow Diyagramları](docs/flow-diagrams.md) - Detaylı akış ve durum diyagramları
 - [🚀 Geliştirme Süreci](docs/development.md) - Fazlar ve zaman çizelgesi
 - [💡 İş Modeli](docs/business-model.md) - Gelir kaynakları ve pazarlama
 - [🔒 Güvenlik](docs/security.md) - Güvenlik önlemleri ve standartlar

@@ -7,36 +7,47 @@ Fourth platformu, RESTful ve GraphQL API'leri sunarak geliştiricilere ve üçü
 ## 🔗 Base URL
 
 ### Environment URLs
-- **Production**: `https://api.fourth.com/v1`
-- **Staging**: `https://staging-api.fourth.com/v1`
-- **Development**: `https://dev-api.fourth.com/v1`
+- **Production**: `https://api.fourth.com/api`
+- **Staging**: `https://staging-api.fourth.com/api`
+- **Development**: `http://localhost:3000/api`
 
 ### API Versions
-- **v1**: Current stable version
-- **v2**: Beta version (coming soon)
-- **v3**: Alpha version (experimental)
+- **Current**: `/api` - Current stable version
+- **v2**: `/api/v2` - Beta version (coming soon)
+- **v3**: `/api/v3` - Alpha version (experimental)
 
 ## 🔐 Authentication
 
-### API Key Authentication
+### JWT Token Authentication
 
-#### Getting API Key
+#### Getting JWT Token
 ```bash
-# Register for API key
-curl -X POST https://api.fourth.com/v1/auth/register \
+# Register for JWT token
+curl -X POST http://localhost:3000/api/auth/register \
   -H "Content-Type: application/json" \
   -d '{
     "email": "developer@example.com",
     "password": "securepassword",
-    "company": "Your Company"
+    "firstName": "John",
+    "lastName": "Doe"
   }'
 ```
 
-#### Using API Key
+#### Using JWT Token
 ```bash
-# Include API key in header
-curl -X GET https://api.fourth.com/v1/user/profile \
-  -H "Authorization: Bearer YOUR_API_KEY"
+# Include JWT token in header
+curl -X GET http://localhost:3000/api/auth/me \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN"
+```
+
+#### Token Refresh
+```bash
+# Refresh expired token
+curl -X POST http://localhost:3000/api/auth/refresh \
+  -H "Content-Type: application/json" \
+  -d '{
+    "refreshToken": "YOUR_REFRESH_TOKEN"
+  }'
 ```
 
 ### OAuth 2.0 Authentication
@@ -99,17 +110,16 @@ X-RateLimit-Retry-After: 60
 
 ### Authentication Endpoints
 
-#### Register User
-```http
-POST /auth/register
-Content-Type: application/json
+#### POST /api/auth/register
+Register a new user account.
 
+**Request Body:**
+```json
 {
   "email": "user@example.com",
   "password": "securepassword",
-  "first_name": "John",
-  "last_name": "Doe",
-  "sector": "legal"
+  "firstName": "John",
+  "lastName": "Doe"
 }
 ```
 
@@ -117,708 +127,543 @@ Content-Type: application/json
 ```json
 {
   "success": true,
+  "message": "User registered successfully",
   "data": {
-    "user_id": "user_123",
-    "email": "user@example.com",
-    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-    "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-    "expires_in": 3600
+    "user": {
+      "id": "user_id",
+      "email": "user@example.com",
+      "firstName": "John",
+      "lastName": "Doe",
+      "role": "user",
+      "isActive": true,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    },
+    "token": "jwt_access_token",
+    "refreshToken": "jwt_refresh_token"
   }
 }
 ```
 
-#### Login User
-```http
-POST /auth/login
-Content-Type: application/json
+#### POST /api/auth/login
+Authenticate user and return JWT tokens.
 
+**Request Body:**
+```json
 {
   "email": "user@example.com",
   "password": "securepassword"
 }
 ```
 
-#### Refresh Token
-```http
-POST /auth/refresh
-Content-Type: application/json
-
+**Response:**
+```json
 {
-  "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+  "success": true,
+  "message": "Login successful",
+  "data": {
+    "user": {
+      "id": "user_id",
+      "email": "user@example.com",
+      "firstName": "John",
+      "lastName": "Doe",
+      "role": "user",
+      "isActive": true,
+      "lastLogin": "2024-01-01T00:00:00.000Z"
+    },
+    "token": "jwt_access_token",
+    "refreshToken": "jwt_refresh_token"
+  }
+}
+```
+
+#### POST /api/auth/refresh
+Refresh expired JWT token.
+
+**Request Body:**
+```json
+{
+  "refreshToken": "jwt_refresh_token"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Token refreshed successfully",
+  "data": {
+    "token": "new_jwt_access_token",
+    "refreshToken": "new_jwt_refresh_token"
+  }
+}
+```
+
+#### POST /api/auth/logout
+Logout user (requires authentication).
+
+**Headers:**
+```
+Authorization: Bearer jwt_access_token
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Logout successful"
+}
+```
+
+#### GET /api/auth/me
+Get current user information (requires authentication).
+
+**Headers:**
+```
+Authorization: Bearer jwt_access_token
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "user": {
+      "id": "user_id",
+      "email": "user@example.com",
+      "firstName": "John",
+      "lastName": "Doe",
+      "role": "user",
+      "isActive": true,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    }
+  }
 }
 ```
 
 ### User Management Endpoints
 
-#### Get User Profile
-```http
-GET /users/profile
-Authorization: Bearer YOUR_ACCESS_TOKEN
+#### GET /api/users
+Get all users with pagination (Admin only).
+
+**Headers:**
 ```
+Authorization: Bearer jwt_access_token
+```
+
+**Query Parameters:**
+- `page` (optional): Page number (default: 1)
+- `limit` (optional): Items per page (default: 10, max: 100)
+- `search` (optional): Search term for name or email
 
 **Response:**
 ```json
 {
   "success": true,
   "data": {
-    "user_id": "user_123",
-    "email": "user@example.com",
-    "first_name": "John",
-    "last_name": "Doe",
-    "sector": "legal",
-    "subscription": {
-      "plan": "professional",
-      "status": "active",
-      "expires_at": "2024-12-31T23:59:59Z"
-    },
-    "created_at": "2024-01-01T00:00:00Z",
-    "updated_at": "2024-01-15T10:30:00Z"
-  }
-}
-```
-
-#### Update User Profile
-```http
-PUT /users/profile
-Authorization: Bearer YOUR_ACCESS_TOKEN
-Content-Type: application/json
-
-{
-  "first_name": "John",
-  "last_name": "Smith",
-  "sector": "medical"
-}
-```
-
-#### Get User Conversations
-```http
-GET /users/conversations?page=1&limit=20
-Authorization: Bearer YOUR_ACCESS_TOKEN
-```
-
-**Response:**
-```json
-{
-  "success": true,
-  "data": {
-    "conversations": [
+    "users": [
       {
-        "conversation_id": "conv_123",
-        "title": "Contract Review",
-        "sector": "legal",
-        "created_at": "2024-01-15T10:30:00Z",
-        "updated_at": "2024-01-15T11:45:00Z",
-        "message_count": 15
+        "id": "user_id",
+        "email": "user@example.com",
+        "firstName": "John",
+        "lastName": "Doe",
+        "role": "user",
+        "isActive": true,
+        "createdAt": "2024-01-01T00:00:00.000Z",
+        "updatedAt": "2024-01-01T00:00:00.000Z"
       }
     ],
     "pagination": {
-      "page": 1,
-      "limit": 20,
-      "total": 150,
-      "pages": 8
+      "currentPage": 1,
+      "totalPages": 5,
+      "totalUsers": 50,
+      "hasNextPage": true,
+      "hasPrevPage": false
     }
   }
 }
 ```
 
-### Chat Endpoints
+#### GET /api/users/:id
+Get user by ID.
 
-#### Start New Conversation
-```http
-POST /chat/conversations
-Authorization: Bearer YOUR_ACCESS_TOKEN
-Content-Type: application/json
-
-{
-  "sector": "legal",
-  "title": "Contract Review",
-  "initial_message": "I need help reviewing this contract"
-}
+**Headers:**
 ```
+Authorization: Bearer jwt_access_token
+```
+
+**Path Parameters:**
+- `id`: User ID
 
 **Response:**
 ```json
 {
   "success": true,
   "data": {
-    "conversation_id": "conv_123",
-    "title": "Contract Review",
-    "sector": "legal",
-    "created_at": "2024-01-15T10:30:00Z"
-  }
-}
-```
-
-#### Send Message
-```http
-POST /chat/conversations/{conversation_id}/messages
-Authorization: Bearer YOUR_ACCESS_TOKEN
-Content-Type: application/json
-
-{
-  "message": "What are the key clauses I should look for?",
-  "message_type": "text"
-}
-```
-
-**Response:**
-```json
-{
-  "success": true,
-  "data": {
-    "message_id": "msg_123",
-    "conversation_id": "conv_123",
-    "message": "What are the key clauses I should look for?",
-    "message_type": "text",
-    "is_ai_generated": false,
-    "created_at": "2024-01-15T10:35:00Z",
-    "ai_response": {
-      "message_id": "msg_124",
-      "message": "When reviewing a contract, you should pay attention to several key clauses...",
-      "confidence_score": 0.95,
-      "sources": [
-        {
-          "title": "Contract Law Basics",
-          "url": "https://example.com/contract-law",
-          "relevance": 0.9
-        }
-      ]
+    "user": {
+      "id": "user_id",
+      "email": "user@example.com",
+      "firstName": "John",
+      "lastName": "Doe",
+      "role": "user",
+      "isActive": true,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
     }
   }
 }
 ```
 
-#### Get Conversation Messages
-```http
-GET /chat/conversations/{conversation_id}/messages?page=1&limit=50
-Authorization: Bearer YOUR_ACCESS_TOKEN
+#### PUT /api/users/:id
+Update user information.
+
+**Headers:**
+```
+Authorization: Bearer jwt_access_token
 ```
 
-#### Upload File
-```http
-POST /chat/conversations/{conversation_id}/files
-Authorization: Bearer YOUR_ACCESS_TOKEN
-Content-Type: multipart/form-data
+**Path Parameters:**
+- `id`: User ID
 
-file: [binary file data]
+**Request Body:**
+```json
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "newemail@example.com"
+}
 ```
 
 **Response:**
 ```json
 {
   "success": true,
+  "message": "User updated successfully",
   "data": {
-    "file_id": "file_123",
-    "filename": "contract.pdf",
-    "file_size": 1024000,
-    "file_type": "application/pdf",
-    "uploaded_at": "2024-01-15T10:40:00Z",
-    "analysis": {
-      "status": "processing",
-      "estimated_completion": "2024-01-15T10:45:00Z"
+    "user": {
+      "id": "user_id",
+      "email": "newemail@example.com",
+      "firstName": "John",
+      "lastName": "Doe",
+      "role": "user",
+      "isActive": true,
+      "updatedAt": "2024-01-01T00:00:00.000Z"
     }
   }
 }
 ```
 
-### AI Endpoints
+#### DELETE /api/users/:id
+Delete user (Admin only).
 
-#### Get AI Models
-```http
-GET /ai/models?sector=legal
-Authorization: Bearer YOUR_ACCESS_TOKEN
+**Headers:**
+```
+Authorization: Bearer jwt_access_token
+```
+
+**Path Parameters:**
+- `id`: User ID
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "User deleted successfully"
+}
+```
+
+#### PUT /api/users/:id/role
+Update user role (Admin only).
+
+**Headers:**
+```
+Authorization: Bearer jwt_access_token
+```
+
+**Path Parameters:**
+- `id`: User ID
+
+**Request Body:**
+```json
+{
+  "role": "admin"
+}
 ```
 
 **Response:**
 ```json
 {
   "success": true,
+  "message": "User role updated successfully",
   "data": {
-    "models": [
+    "user": {
+      "id": "user_id",
+      "role": "admin",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    }
+  }
+}
+```
+
+### Data Management Endpoints
+
+#### GET /api/data
+Get all data items with pagination and filtering.
+
+**Query Parameters:**
+- `page` (optional): Page number (default: 1)
+- `limit` (optional): Items per page (default: 10, max: 100)
+- `category` (optional): Filter by category
+- `search` (optional): Search term
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "items": [
       {
-        "model_id": "legal_v1",
-        "name": "Fourth Legal AI",
-        "sector": "legal",
-        "version": "1.2.0",
-        "description": "Specialized AI model for legal assistance",
-        "capabilities": [
-          "contract_analysis",
-          "legal_research",
-          "case_law_search",
-          "document_review"
-        ],
-        "performance": {
-          "accuracy": 0.94,
-          "response_time": 1.2,
-          "confidence_threshold": 0.8
-        }
+        "id": 1,
+        "title": "Sample Data 1",
+        "description": "This is a sample data item",
+        "category": "general",
+        "createdAt": "2024-01-01T00:00:00.000Z",
+        "updatedAt": "2024-01-01T00:00:00.000Z"
       }
+    ],
+    "pagination": {
+      "currentPage": 1,
+      "totalPages": 5,
+      "totalItems": 50,
+      "hasNextPage": true,
+      "hasPrevPage": false
+    }
+  }
+}
+```
+
+#### GET /api/data/:id
+Get data item by ID.
+
+**Path Parameters:**
+- `id`: Data item ID
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "item": {
+      "id": 1,
+      "title": "Sample Data 1",
+      "description": "This is a sample data item",
+      "category": "general",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    }
+  }
+}
+```
+
+#### POST /api/data
+Create new data item (requires authentication).
+
+**Headers:**
+```
+Authorization: Bearer jwt_access_token
+```
+
+**Request Body:**
+```json
+{
+  "title": "New Data Item",
+  "description": "Description of the new data item",
+  "category": "general"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Data item created successfully",
+  "data": {
+    "item": {
+      "id": 3,
+      "title": "New Data Item",
+      "description": "Description of the new data item",
+      "category": "general",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    }
+  }
+}
+```
+
+#### PUT /api/data/:id
+Update data item (requires authentication).
+
+**Headers:**
+```
+Authorization: Bearer jwt_access_token
+```
+
+**Path Parameters:**
+- `id`: Data item ID
+
+**Request Body:**
+```json
+{
+  "title": "Updated Data Item",
+  "description": "Updated description",
+  "category": "important"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Data item updated successfully",
+  "data": {
+    "item": {
+      "id": 1,
+      "title": "Updated Data Item",
+      "description": "Updated description",
+      "category": "important",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    }
+  }
+}
+```
+
+#### DELETE /api/data/:id
+Delete data item (requires authentication).
+
+**Headers:**
+```
+Authorization: Bearer jwt_access_token
+```
+
+**Path Parameters:**
+- `id`: Data item ID
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Data item deleted successfully"
+}
+```
+
+#### GET /api/data/categories
+Get all available categories.
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "categories": [
+      "general",
+      "important",
+      "urgent",
+      "archived"
     ]
   }
 }
 ```
 
-#### Get AI Response
-```http
-POST /ai/generate
-Authorization: Bearer YOUR_ACCESS_TOKEN
-Content-Type: application/json
+## 🔄 Flow Diyagramları
 
-{
-  "model_id": "legal_v1",
-  "prompt": "Explain the key elements of a valid contract",
-  "sector": "legal",
-  "context": {
-    "conversation_id": "conv_123",
-    "user_expertise": "intermediate"
-  }
-}
-```
+Detaylı API flow diyagramları için [Flow Diyagramları](flow-diagrams.md) dokümantasyonunu inceleyebilirsiniz.
 
-**Response:**
-```json
-{
-  "success": true,
-  "data": {
-    "response_id": "resp_123",
-    "model_id": "legal_v1",
-    "response": "A valid contract requires several key elements...",
-    "confidence_score": 0.92,
-    "processing_time": 1.2,
-    "tokens_used": 150,
-    "sources": [
-      {
-        "title": "Contract Law Principles",
-        "url": "https://example.com/contract-principles",
-        "relevance": 0.95
-      }
-    ],
-    "suggestions": [
-      "Consider including a force majeure clause",
-      "Review the termination conditions carefully"
-    ]
-  }
-}
-```
+## 📊 Error Handling
 
-### Content Endpoints
+### Common Error Responses
 
-#### Search Content
-```http
-GET /content/search?query=contract+law&sector=legal&page=1&limit=20
-Authorization: Bearer YOUR_ACCESS_TOKEN
-```
-
-**Response:**
-```json
-{
-  "success": true,
-  "data": {
-    "results": [
-      {
-        "content_id": "content_123",
-        "title": "Contract Law Fundamentals",
-        "sector": "legal",
-        "type": "article",
-        "summary": "An overview of basic contract law principles...",
-        "url": "https://example.com/contract-law-fundamentals",
-        "relevance_score": 0.95,
-        "published_at": "2024-01-01T00:00:00Z"
-      }
-    ],
-    "pagination": {
-      "page": 1,
-      "limit": 20,
-      "total": 150,
-      "pages": 8
-    }
-  }
-}
-```
-
-#### Get Content Details
-```http
-GET /content/{content_id}
-Authorization: Bearer YOUR_ACCESS_TOKEN
-```
-
-### Analytics Endpoints
-
-#### Get Usage Analytics
-```http
-GET /analytics/usage?start_date=2024-01-01&end_date=2024-01-31
-Authorization: Bearer YOUR_ACCESS_TOKEN
-```
-
-**Response:**
-```json
-{
-  "success": true,
-  "data": {
-    "period": {
-      "start_date": "2024-01-01",
-      "end_date": "2024-01-31"
-    },
-    "metrics": {
-      "total_requests": 1500,
-      "successful_requests": 1485,
-      "failed_requests": 15,
-      "average_response_time": 1.2,
-      "total_tokens_used": 50000,
-      "unique_conversations": 45
-    },
-    "breakdown": {
-      "by_sector": {
-        "legal": 600,
-        "medical": 400,
-        "tech": 300,
-        "finance": 200
-      },
-      "by_endpoint": {
-        "/chat/messages": 800,
-        "/ai/generate": 500,
-        "/content/search": 200
-      }
-    }
-  }
-}
-```
-
-## 🔄 WebSocket API
-
-### Real-time Chat
-
-#### Connection
-```javascript
-const ws = new WebSocket('wss://api.fourth.com/v1/ws/chat?token=YOUR_ACCESS_TOKEN');
-```
-
-#### Message Format
-```json
-{
-  "type": "message",
-  "conversation_id": "conv_123",
-  "message": "Hello, I need help with a contract",
-  "timestamp": "2024-01-15T10:30:00Z"
-}
-```
-
-#### Response Format
-```json
-{
-  "type": "ai_response",
-  "conversation_id": "conv_123",
-  "message_id": "msg_123",
-  "response": "I'd be happy to help you with your contract...",
-  "confidence_score": 0.92,
-  "timestamp": "2024-01-15T10:30:05Z"
-}
-```
-
-## 📊 GraphQL API
-
-### Schema Overview
-```graphql
-type Query {
-  user: User
-  conversation(id: ID!): Conversation
-  conversations(first: Int, after: String): ConversationConnection
-  searchContent(query: String!, sector: String): [Content]
-}
-
-type Mutation {
-  createConversation(input: CreateConversationInput!): Conversation
-  sendMessage(input: SendMessageInput!): Message
-  updateProfile(input: UpdateProfileInput!): User
-}
-
-type Subscription {
-  messageAdded(conversationId: ID!): Message
-  aiResponseGenerated(conversationId: ID!): AIResponse
-}
-```
-
-### Example Queries
-
-#### Get User with Conversations
-```graphql
-query GetUserWithConversations {
-  user {
-    id
-    email
-    firstName
-    lastName
-    sector
-    conversations(first: 10) {
-      edges {
-        node {
-          id
-          title
-          sector
-          createdAt
-          messageCount
-        }
-      }
-      pageInfo {
-        hasNextPage
-        endCursor
-      }
-    }
-  }
-}
-```
-
-#### Send Message
-```graphql
-mutation SendMessage($input: SendMessageInput!) {
-  sendMessage(input: $input) {
-    id
-    message
-    messageType
-    createdAt
-    aiResponse {
-      message
-      confidenceScore
-      sources {
-        title
-        url
-        relevance
-      }
-    }
-  }
-}
-```
-
-#### Subscribe to AI Responses
-```graphql
-subscription AIResponseGenerated($conversationId: ID!) {
-  aiResponseGenerated(conversationId: $conversationId) {
-    messageId
-    response
-    confidenceScore
-    processingTime
-    sources {
-      title
-      url
-    }
-  }
-}
-```
-
-## 🚨 Error Handling
-
-### Error Response Format
+#### 400 Bad Request
 ```json
 {
   "success": false,
-  "error": {
-    "code": "VALIDATION_ERROR",
-    "message": "Invalid input data",
-    "details": {
+  "message": "Validation failed",
+  "errors": [
+    {
       "field": "email",
-      "reason": "Invalid email format"
-    },
-    "request_id": "req_123",
-    "timestamp": "2024-01-15T10:30:00Z"
-  }
+      "message": "Please provide a valid email"
+    }
+  ]
 }
 ```
 
-### Error Codes
-| Code | HTTP Status | Description |
-|------|-------------|-------------|
-| **VALIDATION_ERROR** | 400 | Invalid input data |
-| **UNAUTHORIZED** | 401 | Authentication required |
-| **FORBIDDEN** | 403 | Insufficient permissions |
-| **NOT_FOUND** | 404 | Resource not found |
-| **RATE_LIMIT_EXCEEDED** | 429 | Rate limit exceeded |
-| **INTERNAL_ERROR** | 500 | Internal server error |
-| **SERVICE_UNAVAILABLE** | 503 | Service temporarily unavailable |
-
-## 📝 SDKs and Libraries
-
-### Official SDKs
-
-#### JavaScript/Node.js
-```bash
-npm install @fourth/api-client
-```
-
-```javascript
-import { FourthAPI } from '@fourth/api-client';
-
-const client = new FourthAPI({
-  apiKey: 'your-api-key',
-  baseURL: 'https://api.fourth.com/v1'
-});
-
-// Send a message
-const response = await client.chat.sendMessage({
-  conversationId: 'conv_123',
-  message: 'Hello, I need help with a contract'
-});
-```
-
-#### Python
-```bash
-pip install fourth-api-client
-```
-
-```python
-from fourth_api import FourthAPI
-
-client = FourthAPI(api_key='your-api-key')
-
-# Send a message
-response = client.chat.send_message(
-    conversation_id='conv_123',
-    message='Hello, I need help with a contract'
-)
-```
-
-#### Java
-```xml
-<dependency>
-    <groupId>com.fourth</groupId>
-    <artifactId>api-client</artifactId>
-    <version>1.0.0</version>
-</dependency>
-```
-
-```java
-import com.fourth.api.FourthAPI;
-
-FourthAPI client = new FourthAPI("your-api-key");
-
-// Send a message
-ChatResponse response = client.chat().sendMessage(
-    "conv_123", 
-    "Hello, I need help with a contract"
-);
-```
-
-### Community Libraries
-
-#### PHP
-```bash
-composer require fourth/api-client
-```
-
-#### Ruby
-```bash
-gem install fourth-api-client
-```
-
-#### Go
-```bash
-go get github.com/fourth/api-client-go
-```
-
-## 🔧 Testing
-
-### API Testing Tools
-
-#### Postman Collection
-- **Collection URL**: `https://api.fourth.com/v1/docs/postman`
-- **Environment**: Production, Staging, Development
-- **Authentication**: API Key, OAuth 2.0
-
-#### OpenAPI Specification
-- **Swagger UI**: `https://api.fourth.com/v1/docs`
-- **OpenAPI Spec**: `https://api.fourth.com/v1/openapi.json`
-- **ReDoc**: `https://api.fourth.com/v1/docs/redoc`
-
-### Testing Endpoints
-
-#### Health Check
-```http
-GET /health
-```
-
-**Response:**
+#### 401 Unauthorized
 ```json
 {
-  "status": "healthy",
-  "timestamp": "2024-01-15T10:30:00Z",
-  "version": "1.0.0",
-  "services": {
-    "database": "healthy",
-    "ai_service": "healthy",
-    "cache": "healthy"
-  }
+  "success": false,
+  "message": "Access token required"
 }
 ```
 
-#### API Status
-```http
-GET /status
-```
-
-**Response:**
+#### 403 Forbidden
 ```json
 {
-  "status": "operational",
-  "incidents": [],
-  "maintenance": [],
-  "uptime": "99.9%"
+  "success": false,
+  "message": "Insufficient permissions"
 }
 ```
 
-## 📈 Monitoring and Analytics
+#### 404 Not Found
+```json
+{
+  "success": false,
+  "message": "Resource not found"
+}
+```
 
-### API Metrics
-- **Request Rate**: Requests per second
-- **Response Time**: Average response time
-- **Error Rate**: Percentage of failed requests
-- **Availability**: Uptime percentage
-- **Throughput**: Data transfer rate
+#### 429 Too Many Requests
+```json
+{
+  "success": false,
+  "message": "Rate limit exceeded",
+  "retryAfter": 60
+}
+```
 
-### Usage Analytics
-- **Endpoint Usage**: Most used endpoints
-- **User Activity**: User engagement metrics
-- **Sector Distribution**: Usage by sector
-- **Geographic Distribution**: Usage by region
-- **Peak Hours**: Usage patterns over time
+#### 500 Internal Server Error
+```json
+{
+  "success": false,
+  "message": "Internal server error"
+}
+```
 
-## 🎯 Best Practices
+## 🔧 Development Setup
 
-### API Usage Guidelines
-1. **Always use HTTPS**: Secure all API calls
-2. **Implement retry logic**: Handle temporary failures
-3. **Cache responses**: Reduce API calls when possible
-4. **Monitor rate limits**: Stay within your tier limits
-5. **Handle errors gracefully**: Implement proper error handling
+### Local Development
+```bash
+# Start backend server
+cd backend
+npm install
+npm run dev
 
-### Security Best Practices
-1. **Store API keys securely**: Never expose in client-side code
-2. **Use environment variables**: Keep credentials out of code
-3. **Implement proper authentication**: Use OAuth 2.0 when possible
-4. **Validate input data**: Sanitize all user inputs
-5. **Monitor API usage**: Watch for unusual patterns
+# Server will run on http://localhost:3000
+```
 
-### Performance Optimization
-1. **Use pagination**: Limit response sizes
-2. **Implement caching**: Cache frequently accessed data
-3. **Compress responses**: Use gzip compression
-4. **Batch requests**: Combine multiple operations
-5. **Use WebSockets**: For real-time features
+### API Testing
+```bash
+# Test authentication
+curl -X POST http://localhost:3000/api/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@example.com","password":"password123","firstName":"Test","lastName":"User"}'
 
-## 🎯 Sonuç
+# Test protected endpoint
+curl -X GET http://localhost:3000/api/auth/me \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN"
+```
 
-Fourth API'si, geliştiricilere güçlü ve esnek entegrasyon imkanları sunar. Bu API dokümantasyonu:
+## 📚 Additional Resources
 
-### Temel Özellikler
-- **RESTful Design**: Standart HTTP metodları
-- **GraphQL Support**: Esnek veri sorgulama
-- **Real-time Communication**: WebSocket desteği
-- **Comprehensive SDKs**: Çoklu dil desteği
-- **Detailed Documentation**: Kapsamlı dokümantasyon
-
-### Geliştirici Deneyimi
-- **Easy Integration**: Kolay entegrasyon
-- **Rich Examples**: Zengin örnekler
-- **Multiple Formats**: JSON, GraphQL, WebSocket
-- **Comprehensive Testing**: Test araçları ve koleksiyonları
-- **Community Support**: Topluluk desteği
-
-Bu API, Fourth platformunun güçlü bir ekosistem oluşturmasını ve üçüncü parti geliştiricilerin platform üzerinde inovasyon yapmasını sağlar.
+- [Flow Diyagramları](flow-diagrams.md) - Detaylı API akış diyagramları
+- [Sistem Mimarisi](system-architecture.md) - Teknik mimari dokümantasyonu
+- [Güvenlik](security.md) - Güvenlik önlemleri ve standartlar
