@@ -23,7 +23,8 @@
     "react-hot-toast": "^2.4.1",
     "date-fns": "^2.30.0",
     "lodash": "^4.17.21",
-    "@types/lodash": "^4.14.195"
+    "@types/lodash": "^4.14.195",
+    "@fourth/shared-types": "file:../shared-types"
   },
   "scripts": {
     "start": "react-scripts start",
