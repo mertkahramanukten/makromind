@@ -741,6 +741,484 @@ graph LR
     AI_HANDLER --> CACHE
 ```
 
+## 🔄 Backend API Flow Diyagramları
+
+### Authentication Flow
+
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant A as Auth Service
+    participant DB as Database
+    participant M as Middleware
+    
+    Note over C,M: User Login Flow
+    C->>A: POST /api/auth/login
+    Note right of C: {email, password}
+    
+    A->>DB: Find user by email
+    DB-->>A: User data with password
+    
+    alt Valid credentials
+        A->>A: Compare password hash
+        A->>A: Check account status
+        A->>A: Generate JWT token
+        A->>A: Generate refresh token
+        A->>DB: Update last login
+        A-->>C: {user, token, refreshToken}
+    else Invalid credentials
+        A->>DB: Increment login attempts
+        A-->>C: 401 Unauthorized
+    end
+    
+    Note over C,M: Protected Route Access
+    C->>M: Request with Bearer token
+    M->>M: Extract token from header
+    M->>A: Verify JWT token
+    A-->>M: Token valid/invalid
+    
+    alt Token valid
+        M->>DB: Get user by ID
+        DB-->>M: User data
+        M-->>C: Allow request
+    else Token invalid/expired
+        M-->>C: 401 Unauthorized
+    end
+```
+
+### Token Refresh Flow
+
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant A as Auth Service
+    participant DB as Database
+    
+    Note over C,DB: Token Refresh Process
+    C->>A: POST /api/auth/refresh
+    Note right of C: {refreshToken}
+    
+    A->>A: Verify refresh token
+    A->>DB: Get user by token payload
+    
+    alt Valid refresh token
+        A->>A: Generate new JWT token
+        A->>A: Generate new refresh token
+        A->>DB: Update user tokens
+        A-->>C: {token, refreshToken}
+    else Invalid refresh token
+        A-->>C: 401 Unauthorized
+        Note right of C: Redirect to login
+    end
+```
+
+### User Registration Flow
+
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant A as Auth Service
+    participant DB as Database
+    participant V as Validator
+    
+    Note over C,V: User Registration Process
+    C->>A: POST /api/auth/register
+    Note right of C: {email, password, firstName, lastName}
+    
+    A->>V: Validate input data
+    V-->>A: Validation result
+    
+    alt Valid data
+        A->>DB: Check if email exists
+        DB-->>A: Email check result
+        
+        alt Email not exists
+            A->>A: Hash password
+            A->>DB: Create new user
+            DB-->>A: User created
+            A->>A: Generate tokens
+            A-->>C: {user, token, refreshToken}
+        else Email exists
+            A-->>C: 400 Bad Request
+            Note right of C: Email already registered
+        end
+    else Invalid data
+        A-->>C: 400 Bad Request
+        Note right of C: Validation errors
+    end
+```
+
+## 🎨 Frontend State Management Diyagramları
+
+### Authentication State Flow
+
+```mermaid
+stateDiagram-v2
+    [*] --> Initializing: App Start
+    
+    Initializing --> Loading: Check localStorage
+    Loading --> Authenticated: Valid token found
+    Loading --> Unauthenticated: No token/invalid token
+    
+    Unauthenticated --> Login: User clicks login
+    Unauthenticated --> Register: User clicks register
+    
+    Login --> Authenticating: Submit credentials
+    Authenticating --> Authenticated: Login successful
+    Authenticating --> LoginError: Login failed
+    LoginError --> Login: Retry login
+    
+    Register --> Registering: Submit registration
+    Registering --> Authenticated: Registration successful
+    Registering --> RegisterError: Registration failed
+    RegisterError --> Register: Retry registration
+    
+    Authenticated --> Dashboard: Navigate to dashboard
+    Authenticated --> Profile: Navigate to profile
+    Authenticated --> DataList: Navigate to data
+    Authenticated --> Users: Navigate to users (admin)
+    
+    Authenticated --> Logout: User logs out
+    Logout --> Unauthenticated: Clear tokens
+    
+    Authenticated --> TokenExpired: Token expires
+    TokenExpired --> Refreshing: Auto refresh token
+    Refreshing --> Authenticated: Refresh successful
+    Refreshing --> Unauthenticated: Refresh failed
+```
+
+### Component State Management
+
+```mermaid
+stateDiagram-v2
+    [*] --> Idle: Component Mounted
+    
+    Idle --> Loading: Start API call
+    Loading --> Success: API call successful
+    Loading --> Error: API call failed
+    
+    Success --> Idle: Reset state
+    Success --> Loading: Refetch data
+    
+    Error --> Idle: Reset state
+    Error --> Loading: Retry API call
+    
+    Idle --> Updating: User interaction
+    Updating --> Loading: Submit changes
+    Updating --> Idle: Cancel operation
+```
+
+### Navigation State Flow
+
+```mermaid
+stateDiagram-v2
+    [*] --> Login: Initial Route
+    
+    Login --> Register: Switch to register
+    Login --> Dashboard: Login successful
+    
+    Register --> Login: Switch to login
+    Register --> Dashboard: Registration successful
+    
+    Dashboard --> Profile: Navigate to profile
+    Dashboard --> DataList: Navigate to data
+    Dashboard --> Users: Navigate to users (admin)
+    Dashboard --> Login: Logout
+    
+    Profile --> Dashboard: Back to dashboard
+    Profile --> Login: Logout
+    
+    DataList --> DataDetail: View data item
+    DataList --> Dashboard: Back to dashboard
+    DataList --> Login: Logout
+    
+    DataDetail --> DataList: Back to list
+    DataDetail --> Dashboard: Back to dashboard
+    DataDetail --> Login: Logout
+    
+    Users --> Dashboard: Back to dashboard
+    Users --> Login: Logout
+```
+
+## 🔄 API Request/Response Flow
+
+### HTTP Request Interceptor Flow
+
+```mermaid
+sequenceDiagram
+    participant C as Component
+    participant S as Service
+    participant I as Interceptor
+    participant A as API
+    participant R as Refresh Service
+    
+    Note over C,R: Successful Request Flow
+    C->>S: Make API call
+    S->>I: Add auth header
+    I->>A: Send request
+    A-->>I: 200 OK response
+    I-->>S: Response data
+    S-->>C: Processed data
+    
+    Note over C,R: Token Expired Flow
+    C->>S: Make API call
+    S->>I: Add auth header
+    I->>A: Send request
+    A-->>I: 401 Unauthorized
+    
+    I->>R: Refresh token
+    R->>A: POST /auth/refresh
+    A-->>R: New tokens
+    
+    R-->>I: Updated tokens
+    I->>I: Update request header
+    I->>A: Retry original request
+    A-->>I: 200 OK response
+    I-->>S: Response data
+    S-->>C: Processed data
+    
+    Note over C,R: Refresh Failed Flow
+    C->>S: Make API call
+    S->>I: Add auth header
+    I->>A: Send request
+    A-->>I: 401 Unauthorized
+    
+    I->>R: Refresh token
+    R->>A: POST /auth/refresh
+    A-->>R: 401 Unauthorized
+    
+    R-->>I: Refresh failed
+    I->>I: Clear tokens
+    I->>C: Redirect to login
+```
+
+## 🗄️ Database Operations Flow
+
+### CRUD Operations Flow
+
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant A as API
+    participant M as Middleware
+    participant DB as Database
+    participant V as Validator
+    
+    Note over C,V: Create Operation
+    C->>A: POST /api/data
+    A->>M: Authenticate request
+    M-->>A: User authenticated
+    A->>V: Validate input
+    V-->>A: Validation passed
+    A->>DB: Create record
+    DB-->>A: Record created
+    A-->>C: 201 Created
+    
+    Note over C,V: Read Operation
+    C->>A: GET /api/data
+    A->>M: Authenticate request
+    M-->>A: User authenticated
+    A->>DB: Query records
+    DB-->>A: Records found
+    A-->>C: 200 OK with data
+    
+    Note over C,V: Update Operation
+    C->>A: PUT /api/data/:id
+    A->>M: Authenticate request
+    M-->>A: User authenticated
+    A->>V: Validate input
+    V-->>A: Validation passed
+    A->>DB: Update record
+    DB-->>A: Record updated
+    A-->>C: 200 OK
+    
+    Note over C,V: Delete Operation
+    C->>A: DELETE /api/data/:id
+    A->>M: Authenticate request
+    M-->>A: User authenticated
+    A->>DB: Delete record
+    DB-->>A: Record deleted
+    A-->>C: 204 No Content
+```
+
+## 🔐 Security Flow Diyagramları
+
+### JWT Token Lifecycle
+
+```mermaid
+stateDiagram-v2
+    [*] --> Generated: User Login
+    
+    Generated --> Valid: Token created
+    Valid --> Used: API request
+    Used --> Valid: Request successful
+    Used --> Expired: Token expires
+    Used --> Invalid: Token tampered
+    
+    Expired --> Refreshed: Refresh token valid
+    Expired --> Revoked: Refresh token invalid
+    
+    Invalid --> Revoked: Token compromised
+    Revoked --> [*]: User must re-login
+    
+    Refreshed --> Valid: New token issued
+    Refreshed --> Revoked: Refresh failed
+```
+
+### Password Security Flow
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant C as Client
+    participant A as API
+    participant H as Hash Service
+    participant DB as Database
+    
+    Note over U,DB: Password Registration
+    U->>C: Enter password
+    C->>A: POST /auth/register
+    A->>H: Hash password
+    H->>H: Generate salt
+    H->>H: Hash with bcrypt
+    H-->>A: Hashed password
+    A->>DB: Store user with hash
+    DB-->>A: User created
+    A-->>C: Registration success
+    
+    Note over U,DB: Password Verification
+    U->>C: Enter password
+    C->>A: POST /auth/login
+    A->>DB: Get user by email
+    DB-->>A: User with hash
+    A->>H: Compare password
+    H->>H: Hash input password
+    H->>H: Compare with stored hash
+    H-->>A: Password match result
+    
+    alt Password matches
+        A-->>C: Login successful
+    else Password doesn't match
+        A->>DB: Increment failed attempts
+        A-->>C: Login failed
+    end
+```
+
+## 📱 Mobile App State Flow
+
+### Mobile Navigation State
+
+```mermaid
+stateDiagram-v2
+    [*] --> SplashScreen: App Launch
+    
+    SplashScreen --> LoginScreen: No auth token
+    SplashScreen --> MainApp: Valid auth token
+    
+    LoginScreen --> RegisterScreen: Switch to register
+    LoginScreen --> MainApp: Login successful
+    LoginScreen --> ForgotPasswordScreen: Forgot password
+    
+    RegisterScreen --> LoginScreen: Switch to login
+    RegisterScreen --> MainApp: Registration successful
+    
+    ForgotPasswordScreen --> LoginScreen: Back to login
+    
+    MainApp --> HomeScreen: Default tab
+    MainApp --> ArticlesScreen: Articles tab
+    MainApp --> QuestionsScreen: Questions tab
+    MainApp --> ExpertsScreen: Experts tab
+    MainApp --> ChatScreen: Chat tab
+    MainApp --> ProfileScreen: Profile tab
+    MainApp --> SettingsScreen: Settings tab
+    
+    HomeScreen --> ArticleDetailScreen: View article
+    HomeScreen --> QuestionDetailScreen: View question
+    HomeScreen --> ExpertDetailScreen: View expert
+    
+    ArticlesScreen --> ArticleDetailScreen: Select article
+    QuestionsScreen --> QuestionDetailScreen: Select question
+    ExpertsScreen --> ExpertDetailScreen: Select expert
+    
+    ArticleDetailScreen --> HomeScreen: Back
+    QuestionDetailScreen --> HomeScreen: Back
+    ExpertDetailScreen --> HomeScreen: Back
+    
+    ProfileScreen --> LoginScreen: Logout
+    SettingsScreen --> LoginScreen: Logout
+```
+
+### Mobile Authentication State
+
+```mermaid
+stateDiagram-v2
+    [*] --> CheckingAuth: App Start
+    
+    CheckingAuth --> Authenticated: Token valid
+    CheckingAuth --> Unauthenticated: No token/invalid
+    
+    Unauthenticated --> LoginScreen: Show login
+    Unauthenticated --> RegisterScreen: Show register
+    
+    LoginScreen --> Authenticating: Submit login
+    Authenticating --> Authenticated: Login success
+    Authenticating --> LoginError: Login failed
+    LoginError --> LoginScreen: Show error
+    
+    RegisterScreen --> Registering: Submit register
+    Registering --> Authenticated: Register success
+    Registering --> RegisterError: Register failed
+    RegisterError --> RegisterScreen: Show error
+    
+    Authenticated --> MainApp: Enter app
+    Authenticated --> TokenExpired: Token expires
+    TokenExpired --> Refreshing: Auto refresh
+    Refreshing --> Authenticated: Refresh success
+    Refreshing --> Unauthenticated: Refresh failed
+    
+    Authenticated --> Logout: User logout
+    Logout --> Unauthenticated: Clear tokens
+```
+
+## 🔄 Real-time Communication Flow
+
+### WebSocket Connection Flow
+
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant S as Server
+    participant WS as WebSocket
+    participant A as Auth Service
+    participant DB as Database
+    
+    Note over C,DB: WebSocket Connection
+    C->>S: Connect to WebSocket
+    S->>A: Authenticate connection
+    A-->>S: Authentication result
+    
+    alt Authenticated
+        S->>WS: Establish connection
+        WS-->>C: Connection established
+        C->>WS: Join chat room
+        WS->>DB: Update user status
+        WS-->>C: Joined room
+        
+        Note over C,DB: Message Exchange
+        C->>WS: Send message
+        WS->>DB: Save message
+        WS->>WS: Broadcast to room
+        WS-->>C: Message delivered
+        
+        Note over C,DB: Disconnection
+        C->>WS: Disconnect
+        WS->>DB: Update user status
+        WS-->>C: Disconnected
+    else Not authenticated
+        S-->>C: Connection rejected
+    end
+```
+
 ## 🎯 Sonuç
 
 Fourth platformu, modern mikroservis mimarisi prensiplerine dayalı, ölçeklenebilir ve güvenli bir sistem olarak tasarlanmıştır. Bu mimari:
@@ -758,5 +1236,12 @@ Fourth platformu, modern mikroservis mimarisi prensiplerine dayalı, ölçeklene
 - **Performans**: Optimized data flow ve caching
 - **Güvenlik**: Multi-layer security architecture
 - **Observability**: Comprehensive monitoring ve logging
+
+### Flow ve State Yönetimi
+- **Authentication Flow**: JWT tabanlı güvenli kimlik doğrulama
+- **State Management**: React Context ve Redux benzeri state yönetimi
+- **API Flow**: Interceptor tabanlı otomatik token yenileme
+- **Navigation Flow**: Role-based routing ve protected routes
+- **Real-time Flow**: WebSocket tabanlı gerçek zamanlı iletişim
 
 Bu mimari, Fourth platformunun hedeflerini gerçekleştirmek için gerekli tüm bileşenleri sağlar ve gelecekteki geliştirmeler için esnek bir temel oluşturur.
