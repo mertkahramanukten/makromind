@@ -15,6 +15,10 @@ export class ValidationError extends AppError {
   constructor(message: string, field?: string) {
     super(message, 400);
     this.name = 'ValidationError';
+    // Store field information if provided
+    if (field) {
+      (this as any).field = field;
+    }
   }
 }
 
