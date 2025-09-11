@@ -31,5 +31,15 @@ target 'Fourth' do
       :mac_catalyst_enabled => false,
       # :ccache_enabled => true
     )
+    
+    # Fix for boost checksum issue
+    installer.pods_project.targets.each do |target|
+      if target.name == 'boost'
+        target.build_configurations.each do |config|
+          config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= ['$(inherited)']
+          config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] << 'BOOST_ALL_NO_LIB=1'
+        end
+      end
+    end
   end
 end
