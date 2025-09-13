@@ -81,7 +81,7 @@ export function Input({
       step={step}
       className={`w-full px-4 py-3 rounded-xl border border-pink-200 bg-pink-50/50 
         focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-400
-        transition-colors duration-200 placeholder-gray-400
+        transition-colors duration-200 placeholder-gray-400 text-slate-900
         ${className}`}
     />
   );
@@ -100,7 +100,7 @@ export function Select({
       onChange={(e) => onChange(e.target.value)}
       className={`w-full px-4 py-3 rounded-xl border border-pink-200 bg-pink-50/50 
         focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-400
-        transition-colors duration-200
+        transition-colors duration-200 text-slate-900
         ${className}`}
     >
       {placeholder && (
