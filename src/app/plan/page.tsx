@@ -7,6 +7,7 @@ import { DietCard } from '@/components/DietCard';
 import { StepHeader } from '@/components/StepHeader';
 import { Navigation } from '@/components/Navigation';
 import { useAppStore } from '@/lib/store';
+import { useCustomDiets } from '@/lib/customDietsStore';
 import { calculateMacroPlan, calculateBMI, getBMICategory, testDietRules } from '@/lib/calc';
 import { dietTypes } from '@/lib/dietTypes';
 import { MacroPlan, UserProfile, LabResults, UserPreferences } from '@/lib/types';
@@ -15,6 +16,7 @@ import { MealPlanRequest, MealPlanResponse, DayPlan, Meal, MealItem } from '@/li
 export default function PlanPage() {
   const router = useRouter();
   const { userProfile, labResults, userPreferences, setMacroPlan } = useAppStore();
+  const { customDiets } = useCustomDiets();
   const [macroPlan, setLocalMacroPlan] = useState<MacroPlan | null>(null);
   const [loading, setLoading] = useState(true);
   const [mealPlan, setMealPlan] = useState<MealPlanResponse | null>(null);
@@ -37,7 +39,8 @@ export default function PlanPage() {
       const calculatedPlan = calculateMacroPlan(
         userProfile, 
         labResults, 
-        userPreferences || defaultPreferences
+        userPreferences || defaultPreferences,
+        customDiets
       );
       setLocalMacroPlan(calculatedPlan);
       setMacroPlan(calculatedPlan); // Store'a kaydet
@@ -271,20 +274,11 @@ export default function PlanPage() {
                     </div>
                   </div>
                   
-                  <DietCard diet={dietData} />
-                  
-                  {/* Reasons */}
-                  <div className="mt-3 p-3 bg-gray-50 rounded-lg">
-                    <h4 className="text-sm font-semibold text-gray-700 mb-2">Önerilme Sebepleri:</h4>
-                    <ul className="space-y-1">
-                      {recommendation.reasons.map((reason, idx) => (
-                        <li key={idx} className="flex items-start space-x-2 text-xs text-gray-600">
-                          <span className="text-green-500 mt-0.5">✓</span>
-                          <span>{reason}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                  <DietCard 
+                    diet={dietData} 
+                    score={recommendation.score}
+                    reasons={recommendation.reasons}
+                  />
                 </div>
               );
             })}

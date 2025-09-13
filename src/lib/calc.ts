@@ -1,5 +1,6 @@
 import { UserProfile, LabResults, MacroPlan, ActivityLevel, Goal, UserPreferences } from './types';
 import { getDietRecommendations, generateCautions } from './dietScoring';
+import { NormalizedCustomDiet } from './dietSchema';
 
 // Aktivite çarpanları
 const ACTIVITY_MULTIPLIERS: Record<ActivityLevel, number> = {
@@ -115,7 +116,8 @@ export function calculateCarbsAndFat(
 export function calculateMacroPlan(
   userProfile: UserProfile,
   labResults: LabResults,
-  preferences: UserPreferences = { vegetarian: 'none', fastingPreference: 'none' }
+  preferences: UserPreferences = { vegetarian: 'none', fastingPreference: 'none' },
+  customDiets: NormalizedCustomDiet[] = []
 ): MacroPlan {
   // 1. BMR hesaplama
   const bmr = calculateBMR(userProfile);
@@ -133,7 +135,7 @@ export function calculateMacroPlan(
   const { carbs, fat } = calculateCarbsAndFat(targetCalories, protein.calories);
   
   // 6. Diyet önerileri
-  const dietRecommendations = getDietRecommendations(userProfile, labResults, preferences);
+  const dietRecommendations = getDietRecommendations(userProfile, labResults, preferences, customDiets);
   const cautions = generateCautions(
     {
       prediabetes: labResults.hba1c >= 5.7 || labResults.fastingGlucose >= 100,

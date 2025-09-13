@@ -1,5 +1,7 @@
 import { UserProfile, LabResults, UserPreferences, DietRecommendation } from './types';
-import { dietTypes, getAllDiets } from './dietTypes';
+import { dietTypes, getAllDiets, DietType } from './dietTypes';
+import { NormalizedCustomDiet } from './dietSchema';
+import { mergeWithBuiltins, customDietToDisplayFormat } from './customDiets';
 
 export interface HealthFlags {
   prediabetes: boolean;
@@ -40,10 +42,10 @@ export function calculateHealthFlags(
 }
 
 /**
- * Diyet puanlama sistemi
+ * Diyet puanlama sistemi (built-in + custom diyetler için)
  */
 export function scoreDiet(
-  dietKey: string,
+  diet: DietType | NormalizedCustomDiet,
   profile: UserProfile,
   labs: LabResults,
   preferences: UserPreferences,
@@ -51,6 +53,7 @@ export function scoreDiet(
 ): { score: number; reasons: string[] } {
   let score = 0;
   const reasons: string[] = [];
+  const dietKey = diet.key;
 
   // Hedefe göre puanlama
   if (profile.goal === 'lose') {
@@ -149,7 +152,65 @@ export function scoreDiet(
     score += 2; reasons.push('OMAD tercih');
   }
 
+  // Custom diyet scoring adjustments
+  if ('scoringAdjust' in diet && diet.scoringAdjust) {
+    const adjust = diet.scoringAdjust;
+    
+    // Plus adjustments
+    if (adjust.plus) {
+      for (const [flag, points] of Object.entries(adjust.plus)) {
+        const flagValue = getFlagValue(flag, profile, labs, preferences, healthFlags);
+        if (flagValue) {
+          score += points;
+          reasons.push(`Custom: ${flag} (+${points})`);
+        }
+      }
+    }
+    
+    // Minus adjustments
+    if (adjust.minus) {
+      for (const [flag, points] of Object.entries(adjust.minus)) {
+        const flagValue = getFlagValue(flag, profile, labs, preferences, healthFlags);
+        if (flagValue) {
+          score += points; // points is already negative
+          reasons.push(`Custom: ${flag} (${points})`);
+        }
+      }
+    }
+  }
+
   return { score, reasons };
+}
+
+/**
+ * Flag değerini al (custom diyet scoring için)
+ */
+function getFlagValue(
+  flag: string,
+  profile: UserProfile,
+  labs: LabResults,
+  preferences: UserPreferences,
+  healthFlags: HealthFlags
+): boolean {
+  switch (flag) {
+    case 'goal_lose': return profile.goal === 'lose';
+    case 'goal_maintain': return profile.goal === 'maintain';
+    case 'goal_gain': return profile.goal === 'gain';
+    case 'highLDL': return healthFlags.highLDL;
+    case 'highTG': return healthFlags.highTG;
+    case 'lowHDL': return healthFlags.lowHDL;
+    case 'predm': return healthFlags.prediabetes;
+    case 'dm': return healthFlags.diabetes;
+    case 'ckd': return healthFlags.ckd;
+    case 'obese': return healthFlags.obese;
+    case 'overweight': return healthFlags.overweight;
+    case 'vegan_pref': return preferences.vegetarian === 'vegan';
+    case 'vegetarian_pref': return preferences.vegetarian === 'vegetarian';
+    case 'if16': return preferences.fastingPreference === 'if16';
+    case 'if1410': return preferences.fastingPreference === 'if1410';
+    case 'omad': return preferences.fastingPreference === 'omad';
+    default: return false;
+  }
 }
 
 /**
@@ -185,15 +246,20 @@ export function generateCautions(healthFlags: HealthFlags, preferences: UserPref
 export function getDietRecommendations(
   profile: UserProfile,
   labs: LabResults,
-  preferences: UserPreferences
+  preferences: UserPreferences,
+  customDiets: NormalizedCustomDiet[] = []
 ): DietRecommendation[] {
   const healthFlags = calculateHealthFlags(profile, labs);
-  const allDiets = getAllDiets();
+  
+  // Built-in ve custom diyetleri birleştir
+  const builtinDiets = getAllDiets();
+  const { allDiets } = mergeWithBuiltins(builtinDiets, customDiets);
+  
   const scoredDiets: DietRecommendation[] = [];
 
   // Her diyet için puan hesapla
   allDiets.forEach(diet => {
-    const { score, reasons } = scoreDiet(diet.key, profile, labs, preferences, healthFlags);
+    const { score, reasons } = scoreDiet(diet, profile, labs, preferences, healthFlags);
     
     // Negatif puanlı diyetleri filtrele
     if (score > 0) {
@@ -206,8 +272,8 @@ export function getDietRecommendations(
     }
   });
 
-  // Puanına göre sırala ve en yüksek 3-4 tanesini al
+  // Puanına göre sırala ve en yüksek 3 tanesini al
   return scoredDiets
     .sort((a, b) => b.score - a.score)
-    .slice(0, 4);
+    .slice(0, 3);
 }

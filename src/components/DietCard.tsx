@@ -1,9 +1,12 @@
 'use client';
 
 import { DietType } from '@/lib/dietTypes';
+import { NormalizedCustomDiet } from '@/lib/dietSchema';
 
 interface DietCardProps {
-  diet: DietType;
+  diet: DietType | NormalizedCustomDiet;
+  score?: number;
+  reasons?: string[];
 }
 
 const colorClasses = {
@@ -29,8 +32,16 @@ const priorityLabels = {
   low: 'Ek Seçenek',
 };
 
-export function DietCard({ diet }: DietCardProps) {
-  const { name, description, color, icon, priority, defaultMacros, carbCapGrams } = diet;
+export function DietCard({ diet, score, reasons }: DietCardProps) {
+  // Custom diyet mi kontrol et
+  const isCustom = diet.key.startsWith('custom:');
+  
+  // Built-in diyet için varsayılan değerler
+  const color = 'color' in diet ? diet.color : 'purple';
+  const icon = 'icon' in diet ? diet.icon : '🍽️';
+  const priority = 'priority' in diet ? diet.priority : 'medium';
+  
+  const { name, description, defaultMacros, carbCapGrams } = diet;
 
   return (
     <div className={`bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-6 border ${colorClasses[color].split(' ')[2]} hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 ${priorityClasses[priority]}`}>
@@ -39,13 +50,28 @@ export function DietCard({ diet }: DietCardProps) {
         <div className={`p-3 rounded-xl bg-gradient-to-r ${colorClasses[color].split(' ')[0]} ${colorClasses[color].split(' ')[1]} shadow-lg`}>
           <span className="text-2xl">{icon}</span>
         </div>
-        {priority !== 'low' && (
-          <div className={`text-xs font-medium px-2 py-1 rounded-full ${
-            priority === 'high' ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-700'
-          }`}>
-            {priorityLabels[priority]}
-          </div>
-        )}
+        <div className="flex items-center gap-2">
+          {/* Custom rozeti */}
+          {isCustom && (
+            <div className="text-xs font-medium px-2 py-1 rounded-full bg-purple-100 text-purple-700">
+              Custom
+            </div>
+          )}
+          {/* Score rozeti */}
+          {score !== undefined && (
+            <div className="text-xs font-medium px-2 py-1 rounded-full bg-green-100 text-green-700">
+              {score} puan
+            </div>
+          )}
+          {/* Priority rozeti */}
+          {priority !== 'low' && (
+            <div className={`text-xs font-medium px-2 py-1 rounded-full ${
+              priority === 'high' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-700'
+            }`}>
+              {priorityLabels[priority]}
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Content */}
@@ -78,6 +104,21 @@ export function DietCard({ diet }: DietCardProps) {
             </div>
           )}
         </div>
+
+        {/* Önerilme Sebepleri */}
+        {reasons && reasons.length > 0 && (
+          <div className="bg-blue-50 rounded-lg p-3">
+            <h4 className="text-sm font-semibold text-blue-700 mb-2">Önerilme Sebepleri:</h4>
+            <ul className="text-xs text-blue-600 space-y-1">
+              {reasons.map((reason, index) => (
+                <li key={index} className="flex items-center">
+                  <span className="mr-2">•</span>
+                  <span>{reason}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
 
       {/* Action Button */}
