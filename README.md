@@ -30,6 +30,7 @@ MakroMind, kullanıcıların fiziksel özelliklerini ve kan değerlerini girerek
 - **Styling**: Tailwind CSS
 - **State Management**: Zustand
 - **Storage**: Local Storage (Persistent)
+- **AI/LLM**: Ollama + Llama 3.1 8B Instruct
 - **Development**: ESLint, Prettier
 
 ## 📦 Kurulum
@@ -37,6 +38,7 @@ MakroMind, kullanıcıların fiziksel özelliklerini ve kan değerlerini girerek
 ### Gereksinimler
 - Node.js 18+ 
 - npm veya yarn
+- Ollama (Lokal LLM için)
 
 ### Adımlar
 
@@ -51,12 +53,28 @@ cd makromind
 npm install
 ```
 
-3. **Development server'ı başlatın**
+3. **Ollama'yı kurun ve modeli indirin**
+```bash
+# Ollama'yı indirin: https://github.com/ollama/ollama
+# macOS için:
+curl -fsSL https://ollama.ai/install.sh | sh
+
+# Modeli indirin:
+ollama pull llama3.1:8b-instruct
+
+# Alternatif model (daha küçük):
+# ollama pull qwen2.5:7b-instruct
+
+# Ollama'yı başlatın (arka planda çalışır)
+ollama serve
+```
+
+4. **Development server'ı başlatın**
 ```bash
 npm run dev
 ```
 
-4. **Tarayıcıda açın**
+5. **Tarayıcıda açın**
 ```
 http://localhost:3000
 ```
@@ -143,22 +161,68 @@ makromind/
 │   │   ├── page.tsx           # Landing sayfası
 │   │   ├── onboarding/        # Profil formu
 │   │   ├── labs/              # Kan değerleri formu
-│   │   └── plan/              # Sonuçlar sayfası
+│   │   ├── plan/              # Sonuçlar sayfası
+│   │   └── api/               # API routes
+│   │       └── llm/           # LLM endpoint
+│   │           └── route.ts   # Ollama entegrasyonu
 │   ├── components/            # React bileşenleri
 │   │   ├── Field.tsx          # Form bileşenleri
 │   │   ├── MacroCard.tsx      # Makro kartları
 │   │   ├── DietCard.tsx       # Diyet kartları
+│   │   ├── Navigation.tsx     # Navigasyon bileşeni
 │   │   └── StepHeader.tsx     # Başlık bileşeni
 │   └── lib/                   # Utility fonksiyonları
 │       ├── types.ts           # TypeScript tipler
 │       ├── store.ts           # Zustand store
-│       └── calc.ts            # Hesaplama motoru
+│       ├── calc.ts            # Hesaplama motoru
+│       ├── dietTypes.ts       # Diyet türleri
+│       └── dietScoring.ts     # Diyet puanlama sistemi
 ├── public/                    # Statik dosyalar
 ├── package.json
 ├── tailwind.config.ts
 ├── tsconfig.json
 └── next.config.ts
 ```
+
+## 🤖 LLM Entegrasyonu
+
+MakroMind, yerel LLM desteği ile akıllı diyet önerileri sunar:
+
+### Ollama Kurulumu
+1. **Ollama'yı indirin**: [https://github.com/ollama/ollama](https://github.com/ollama/ollama)
+2. **Model indirin**:
+   ```bash
+   ollama pull llama3.1:8b-instruct
+   ```
+3. **Ollama'yı başlatın**:
+   ```bash
+   ollama serve
+   ```
+
+### API Endpoint
+- **POST** `/api/llm` - LLM'ye prompt gönder
+- **GET** `/api/llm` - Ollama durumu kontrol et
+
+### Örnek Kullanım
+```javascript
+// LLM'ye istek gönder
+const response = await fetch('/api/llm', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    prompt: "Keto diyeti hakkında bilgi ver",
+    temperature: 0.7
+  })
+});
+
+const data = await response.json();
+console.log(data.text); // LLM yanıtı
+```
+
+### Güvenlik
+- Sadece server-side çalışır
+- Localhost'ta çalışır (dış erişim yok)
+- Stream=false (MVP için basit)
 
 ## 🧪 Test Senaryoları
 
