@@ -12,7 +12,11 @@ export interface UserProfile {
 }
 
 export interface LabResults {
-  // Kan değerleri buraya eklenecek
+  fastingGlucose: number; // Açlık Glukoz (mg/dL)
+  hba1c: number; // HbA1c (mg/dL)
+  ldl: number; // LDL (mg/dL)
+  hdl: number; // HDL (mg/dL)
+  triglycerides: number; // Trigliserid (mg/dL)
 }
 
 export interface MacroPlan {
