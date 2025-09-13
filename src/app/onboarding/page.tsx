@@ -42,12 +42,18 @@ export default function OnboardingPage() {
   ];
 
   const handleInputChange = (field: keyof UserProfile, value: string) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: field === 'age' || field === 'height' || field === 'weight' 
-        ? (value === '' ? undefined : Number(value)) 
-        : value
-    }));
+    console.log(`Field: ${field}, Value: ${value}`); // Debug log
+    
+    setFormData(prev => {
+      const newData = {
+        ...prev,
+        [field]: field === 'age' || field === 'height' || field === 'weight' 
+          ? (value === '' ? undefined : Number(value)) 
+          : value
+      };
+      console.log('New form data:', newData); // Debug log
+      return newData;
+    });
     
     // Clear error when user starts typing
     if (errors[field]) {
