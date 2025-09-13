@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Field, Input, Select, Button } from '@/components/Field';
+import { Navigation } from '@/components/Navigation';
 import { useAppStore } from '@/lib/store';
 import { UserProfile, Gender, Goal, ActivityLevel } from '@/lib/types';
 
@@ -97,6 +98,13 @@ export default function OnboardingPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-indigo-50">
       <div className="container mx-auto px-4 py-8 max-w-2xl">
+        {/* Navigation */}
+        <Navigation 
+          showHome={true} 
+          showBack={false} 
+          title="Profil Bilgileri"
+        />
+
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-800 mb-2">

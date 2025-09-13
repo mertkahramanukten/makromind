@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Field, Input, Button } from '@/components/Field';
+import { Navigation } from '@/components/Navigation';
 import { useAppStore } from '@/lib/store';
 import { LabResults } from '@/lib/types';
 
@@ -77,6 +78,14 @@ export default function LabsPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
       <div className="container mx-auto px-4 py-8 max-w-2xl">
+        {/* Navigation */}
+        <Navigation 
+          showHome={true} 
+          showBack={true} 
+          backUrl="/onboarding"
+          title="Kan Değerleri"
+        />
+
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-800 mb-2">

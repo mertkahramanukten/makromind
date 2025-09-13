@@ -60,11 +60,14 @@ export function Input({
   step,
   className = '' 
 }: InputProps) {
+  // Güvenli value dönüşümü
+  const safeValue = value === null || value === undefined ? '' : String(value);
+  
   return (
     <input
       type={type}
       placeholder={placeholder}
-      value={value === '' || value === null || value === undefined ? '' : String(value)}
+      value={safeValue}
       onChange={(e) => onChange(e.target.value)}
       min={min}
       max={max}

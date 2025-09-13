@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { MacroCard } from '@/components/MacroCard';
 import { DietCard, dietTypes } from '@/components/DietCard';
 import { StepHeader } from '@/components/StepHeader';
+import { Navigation } from '@/components/Navigation';
 import { useAppStore } from '@/lib/store';
 import { calculateMacroPlan, calculateBMI, getBMICategory, testDietRules } from '@/lib/calc';
 import { MacroPlan, UserProfile, LabResults } from '@/lib/types';
@@ -92,6 +93,14 @@ export default function PlanPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50">
       <div className="container mx-auto px-4 py-8 max-w-6xl">
+        {/* Navigation */}
+        <Navigation 
+          showHome={true} 
+          showBack={true} 
+          backUrl="/labs"
+          title="Makro Planı"
+        />
+
         {/* Header */}
         <StepHeader
           title="Makro Planınız Hazır! 🎉"
