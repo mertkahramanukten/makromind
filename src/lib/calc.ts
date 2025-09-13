@@ -1,5 +1,5 @@
-import { UserProfile, LabResults, MacroPlan, ActivityLevel, Goal } from './types';
-import { getAllDiets } from './dietTypes';
+import { UserProfile, LabResults, MacroPlan, ActivityLevel, Goal, UserPreferences } from './types';
+import { getDietRecommendations, generateCautions } from './dietScoring';
 
 // Aktivite çarpanları
 const ACTIVITY_MULTIPLIERS: Record<ActivityLevel, number> = {
@@ -107,27 +107,15 @@ export function calculateCarbsAndFat(
 /**
  * Diyet önerileri hesaplama
  */
-export function getDietRecommendations(labResults: LabResults): string[] {
-  // Şimdilik basit kurallar - tüm diyetleri göster
-  // Gelecekte lab sonuçlarına göre filtreleme yapılabilir
-  
-  const allDiets = getAllDiets();
-  const recommendations: string[] = [];
-  
-  // Öncelik sırasına göre tüm diyetleri ekle
-  allDiets.forEach(diet => {
-    recommendations.push(diet.key);
-  });
-  
-  return recommendations;
-}
+// Bu fonksiyon artık dietScoring.ts'de tanımlı
 
 /**
  * Ana hesaplama fonksiyonu
  */
 export function calculateMacroPlan(
   userProfile: UserProfile,
-  labResults: LabResults
+  labResults: LabResults,
+  preferences: UserPreferences = { vegetarian: 'none', fastingPreference: 'none' }
 ): MacroPlan {
   // 1. BMR hesaplama
   const bmr = calculateBMR(userProfile);
@@ -145,7 +133,23 @@ export function calculateMacroPlan(
   const { carbs, fat } = calculateCarbsAndFat(targetCalories, protein.calories);
   
   // 6. Diyet önerileri
-  const dietRecommendations = getDietRecommendations(labResults);
+  const dietRecommendations = getDietRecommendations(userProfile, labResults, preferences);
+  const cautions = generateCautions(
+    {
+      prediabetes: labResults.hba1c >= 5.7 || labResults.fastingGlucose >= 100,
+      diabetes: labResults.hba1c >= 6.5 || labResults.fastingGlucose >= 126,
+      highLDL: labResults.ldl >= 160,
+      highTG: labResults.triglycerides >= 150,
+      lowHDL: (userProfile.gender === 'male' && labResults.hdl < 40) || (userProfile.gender === 'female' && labResults.hdl < 50),
+      ckd: labResults.egfr !== undefined && labResults.egfr < 60,
+      highTGHDLRatio: labResults.triglycerides / labResults.hdl > 3,
+      obese: (userProfile.weight / Math.pow(userProfile.height / 100, 2)) >= 30,
+      overweight: (userProfile.weight / Math.pow(userProfile.height / 100, 2)) >= 25 && (userProfile.weight / Math.pow(userProfile.height / 100, 2)) < 30,
+      lowFerritin: labResults.ferritin !== undefined && labResults.ferritin < 30,
+      lowB12: labResults.b12 !== undefined && labResults.b12 < 200,
+    },
+    preferences
+  );
   
   return {
     bmr: Math.round(bmr),
@@ -155,6 +159,7 @@ export function calculateMacroPlan(
     carbs,
     fat,
     dietRecommendations,
+    cautions,
   };
 }
 

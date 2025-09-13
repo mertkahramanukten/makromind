@@ -1,11 +1,12 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { AppState, UserProfile, LabResults, MacroPlan } from './types';
+import { AppState, UserProfile, LabResults, MacroPlan, UserPreferences } from './types';
 
 interface AppStore extends AppState {
   // Actions
   setUserProfile: (profile: UserProfile) => void;
   setLabResults: (results: LabResults) => void;
+  setUserPreferences: (preferences: UserPreferences) => void;
   setMacroPlan: (plan: MacroPlan) => void;
   clearAll: () => void;
 }
@@ -16,6 +17,7 @@ export const useAppStore = create<AppStore>()(
       // Initial state
       userProfile: null,
       labResults: null,
+      userPreferences: null,
       macroPlan: null,
 
       // Actions
@@ -25,6 +27,9 @@ export const useAppStore = create<AppStore>()(
       setLabResults: (results: LabResults) =>
         set({ labResults: results }),
 
+      setUserPreferences: (preferences: UserPreferences) =>
+        set({ userPreferences: preferences }),
+
       setMacroPlan: (plan: MacroPlan) =>
         set({ macroPlan: plan }),
 
@@ -32,6 +37,7 @@ export const useAppStore = create<AppStore>()(
         set({
           userProfile: null,
           labResults: null,
+          userPreferences: null,
           macroPlan: null,
         }),
     }),

@@ -17,6 +17,26 @@ export interface LabResults {
   ldl: number; // LDL (mg/dL)
   hdl: number; // HDL (mg/dL)
   triglycerides: number; // Trigliserid (mg/dL)
+  totalChol?: number; // Total Kolesterol (mg/dL)
+  egfr?: number; // eGFR (mL/min/1.73m²)
+  ferritin?: number; // Ferritin (ng/mL)
+  b12?: number; // B12 (pg/mL)
+}
+
+export interface UserPreferences {
+  vegetarian: 'none' | 'vegetarian' | 'vegan';
+  fastingPreference: 'none' | 'if16' | 'if1410' | 'omad';
+}
+
+export interface DietRecommendation {
+  diet: string;
+  score: number;
+  reasons: string[];
+  macros: {
+    proteinPct: number;
+    carbPct: number;
+    fatPct: number;
+  };
 }
 
 export interface MacroPlan {
@@ -38,7 +58,8 @@ export interface MacroPlan {
     calories: number;
     percentage: number;
   };
-  dietRecommendations: string[];
+  dietRecommendations: DietRecommendation[];
+  cautions: string[];
 }
 
 export interface CalculationResult {
@@ -50,5 +71,11 @@ export interface CalculationResult {
 export interface AppState {
   userProfile: UserProfile | null;
   labResults: LabResults | null;
+  userPreferences: UserPreferences | null;
   macroPlan: MacroPlan | null;
+  setUserProfile: (profile: UserProfile) => void;
+  setLabResults: (results: LabResults) => void;
+  setUserPreferences: (preferences: UserPreferences) => void;
+  setMacroPlan: (plan: MacroPlan) => void;
+  resetStore: () => void;
 }
