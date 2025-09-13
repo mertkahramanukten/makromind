@@ -75,6 +75,8 @@ export const mealPlanResponseSchema = z.object({
   days: z.array(dayPlanSchema).min(1, 'En az bir günlük plan olmalı'),
   warnings: z.array(z.string()).optional(),
   substitutions: z.record(z.string(), z.array(z.string())).optional(),
+  totalDay: macroSchema.optional(), // Optional total for the day
+  targetValues: macroSchema.optional(), // Optional target values
 });
 
 // Validation helper functions

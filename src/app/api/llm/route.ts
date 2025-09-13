@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
     const ollamaUrl = 'http://localhost:11434/api/generate';
     
     const ollamaRequest: OllamaRequest = {
-      model: 'llama3.1:8b-instruct',
+      model: 'llama3.1:8b',
       prompt,
       stream: false,
       temperature: Math.max(0, Math.min(2, temperature)), // Clamp between 0-2
@@ -57,8 +57,8 @@ export async function POST(request: NextRequest) {
       if (response.status === 404) {
         return NextResponse.json(
           { 
-            error: 'Ollama service not found. Please ensure Ollama is running and llama3.1:8b-instruct model is installed.',
-            details: 'Run: ollama pull llama3.1:8b-instruct'
+            error: 'Ollama service not found. Please ensure Ollama is running and llama3.1:8b model is installed.',
+            details: 'Run: ollama pull llama3.1:8b'
           },
           { status: 503 }
         );
@@ -68,7 +68,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json(
           { 
             error: 'Model not available. Please install the model first.',
-            details: 'Run: ollama pull llama3.1:8b-instruct'
+            details: 'Run: ollama pull llama3.1:8b'
           },
           { status: 503 }
         );
@@ -135,7 +135,7 @@ export async function GET() {
     const data = await response.json();
     const models = data.models || [];
     const hasRequiredModel = models.some((model: any) => 
-      model.name.includes('llama3.1:8b-instruct')
+      model.name.includes('llama3.1:8b')
     );
 
     return NextResponse.json({
@@ -143,7 +143,7 @@ export async function GET() {
       ollamaAvailable: true,
       models: models.map((model: any) => model.name),
       requiredModelInstalled: hasRequiredModel,
-      requiredModel: 'llama3.1:8b-instruct'
+      requiredModel: 'llama3.1:8b'
     });
 
   } catch (error) {

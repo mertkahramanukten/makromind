@@ -88,12 +88,15 @@ export async function POST(request: NextRequest) {
     }
     
     // Validate response structure
+    console.log('Parsed response:', JSON.stringify(parsedResponse, null, 2));
     const responseValidation = mealPlanResponseSchema.safeParse(parsedResponse);
     if (!responseValidation.success) {
+      console.log('Response validation error:', responseValidation.error);
       return NextResponse.json(
         { 
           error: 'Invalid meal plan structure',
-          details: responseValidation.error.errors.map(err => `${err.path.join('.')}: ${err.message}`)
+          details: responseValidation.error?.errors?.map(err => `${err.path.join('.')}: ${err.message}`) || ['Validation failed'],
+          parsedResponse: parsedResponse
         },
         { status: 500 }
       );
