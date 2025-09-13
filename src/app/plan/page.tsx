@@ -85,7 +85,17 @@ export default function PlanPage() {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to generate meal plan');
+        let errorMessage = 'Failed to generate meal plan';
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.error || errorData.message || errorMessage;
+          if (errorData.details) {
+            errorMessage += `: ${errorData.details.join(', ')}`;
+          }
+        } catch {
+          errorMessage += ` (${response.status}: ${response.statusText})`;
+        }
+        throw new Error(errorMessage);
       }
 
       const data: MealPlanResponse = await response.json();
@@ -93,7 +103,8 @@ export default function PlanPage() {
       setShowMealPlan(true);
     } catch (error) {
       console.error('Error generating meal plan:', error);
-      alert('Menü planı oluşturulurken bir hata oluştu. Lütfen tekrar deneyin.');
+      const errorMessage = error instanceof Error ? error.message : 'Bilinmeyen hata';
+      alert(`Menü planı oluşturulurken bir hata oluştu: ${errorMessage}`);
     } finally {
       setGeneratingMealPlan(false);
     }

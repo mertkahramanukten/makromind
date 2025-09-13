@@ -47,11 +47,18 @@ export async function POST(request: NextRequest) {
     });
     
     if (!llmResponse.ok) {
-      const errorData = await llmResponse.json();
+      let errorMessage = 'LLM service unavailable';
+      try {
+        const errorData = await llmResponse.json();
+        errorMessage = errorData.error || errorData.message || errorMessage;
+      } catch {
+        errorMessage += ` (HTTP ${llmResponse.status}: ${llmResponse.statusText})`;
+      }
       return NextResponse.json(
         { 
-          error: 'LLM service unavailable',
-          details: errorData.error || 'Failed to generate meal plan'
+          error: errorMessage,
+          details: ['Ollama LLM servisi çalışmıyor. Lütfen Ollama\'yı başlatın ve modeli yükleyin.'],
+          suggestion: 'Ollama kurulumu için: https://github.com/ollama/ollama'
         },
         { status: 503 }
       );
@@ -174,8 +181,13 @@ export async function POST(request: NextRequest) {
     
   } catch (error) {
     console.error('Meal plan API error:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     return NextResponse.json(
-      { error: 'Internal server error while generating meal plan' },
+      { 
+        error: 'Internal server error while generating meal plan',
+        details: [errorMessage],
+        suggestion: 'Please try again or contact support if the problem persists'
+      },
       { status: 500 }
     );
   }
