@@ -163,8 +163,10 @@ makromind/
 │   │   ├── labs/              # Kan değerleri formu
 │   │   ├── plan/              # Sonuçlar sayfası
 │   │   └── api/               # API routes
-│   │       └── llm/           # LLM endpoint
-│   │           └── route.ts   # Ollama entegrasyonu
+│   │       ├── llm/           # LLM endpoint
+│   │       │   └── route.ts   # Ollama entegrasyonu
+│   │       └── mealplan/      # Meal plan endpoint
+│   │           └── route.ts   # AI yemek planı üretici
 │   ├── components/            # React bileşenleri
 │   │   ├── Field.tsx          # Form bileşenleri
 │   │   ├── MacroCard.tsx      # Makro kartları
@@ -176,7 +178,10 @@ makromind/
 │       ├── store.ts           # Zustand store
 │       ├── calc.ts            # Hesaplama motoru
 │       ├── dietTypes.ts       # Diyet türleri
-│       └── dietScoring.ts     # Diyet puanlama sistemi
+│       ├── dietScoring.ts     # Diyet puanlama sistemi
+│       ├── mealplanTypes.ts   # Yemek planı tipleri
+│       ├── mealplanSchema.ts  # Zod şemaları
+│       └── prompts.ts         # AI prompt şablonları
 ├── public/                    # Statik dosyalar
 ├── package.json
 ├── tailwind.config.ts
@@ -199,11 +204,15 @@ MakroMind, yerel LLM desteği ile akıllı diyet önerileri sunar:
    ollama serve
    ```
 
-### API Endpoint
+### API Endpoints
 - **POST** `/api/llm` - LLM'ye prompt gönder
 - **GET** `/api/llm` - Ollama durumu kontrol et
+- **POST** `/api/mealplan` - AI ile yemek planı üret
+- **GET** `/api/mealplan` - API kullanım bilgileri
 
 ### Örnek Kullanım
+
+#### LLM API
 ```javascript
 // LLM'ye istek gönder
 const response = await fetch('/api/llm', {
@@ -219,10 +228,62 @@ const data = await response.json();
 console.log(data.text); // LLM yanıtı
 ```
 
+#### Meal Plan API
+```javascript
+// AI ile yemek planı üret
+const mealPlanResponse = await fetch('/api/mealplan', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    targets: {
+      calories: 2000,
+      protein: 150,
+      carbs: 200,
+      fat: 80
+    },
+    dietStyleKeys: ['mediterranean', 'low_gi'],
+    avoid: ['gluten', 'domates'],
+    prefer: ['zeytinyağı', 'balık'],
+    days: 3,
+    mealsPerDay: 3
+  })
+});
+
+const mealPlan = await mealPlanResponse.json();
+console.log(mealPlan.days); // Günlük yemek planları
+```
+
 ### Güvenlik
 - Sadece server-side çalışır
 - Localhost'ta çalışır (dış erişim yok)
 - Stream=false (MVP için basit)
+
+## 🍽️ AI Yemek Planı Üretici
+
+MakroMind, AI destekli yemek planı üretimi sunar:
+
+### Özellikler
+- **Kişiselleştirilmiş Menüler**: Makro hedeflerinize uygun
+- **Diyet Stili Uyumlu**: Seçilen diyet türüne göre öneriler
+- **Gıda Kısıtlamaları**: Alerji ve tercihlere göre filtreleme
+- **Makro Doğrulama**: Otomatik hesaplama ve doğrulama
+- **Alternatif Öneriler**: Yasaklı gıdalar için alternatifler
+
+### Besin Değerleri Doğrulama
+Besin değerlerini doğrulamak için ücretsiz USDA FoodData Central API'si kullanılabilir:
+
+#### USDA FoodData Central API
+- **API Dokümantasyonu**: [https://fdc.nal.usda.gov/api-guide.html](https://fdc.nal.usda.gov/api-guide.html)
+- **Veri İndirme**: [https://fdc.nal.usda.gov/download-datasets.html](https://fdc.nal.usda.gov/download-datasets.html)
+- **CSV İndirme**: [https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_foundation_food_csv_2024-10-01.zip](https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_foundation_food_csv_2024-10-01.zip)
+
+#### Gelecek Geliştirmeler
+- Item bazlı kcal/P/C/F otomatik eşleştirme
+- USDA veritabanı entegrasyonu
+- Besin değeri doğrulama sistemi
+- Gıda arama ve filtreleme
+
+**Not**: Şu anda LLM makro tahmini + toplam doğrulama sistemi kullanılmaktadır.
 
 ## 🧪 Test Senaryoları
 
