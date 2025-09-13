@@ -1,36 +1,247 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🧠 MakroMind
 
-## Getting Started
+> Kan değerlerinize göre kişiselleştirilmiş makro planı ve diyet önerileri alın
 
-First, run the development server:
+MakroMind, kullanıcıların fiziksel özelliklerini ve kan değerlerini girerek kişiselleştirilmiş makro besin planı ve diyet önerileri alabileceği modern bir web uygulamasıdır.
 
+## ✨ Özellikler
+
+### 🎯 Kişiselleştirilmiş Hesaplamalar
+- **BMR (Bazal Metabolizma)**: Mifflin-St Jeor formülü ile
+- **TDEE (Toplam Günlük Enerji)**: Aktivite seviyesine göre
+- **Makro Dağılımı**: Protein, karbonhidrat ve yağ hesaplamaları
+- **Hedef Kalori**: Kilo verme/koruma/alma hedeflerine göre
+
+### 🧪 Akıllı Diyet Önerileri
+- **Kan Değerleri Analizi**: HbA1c, LDL, HDL, trigliserid değerlerine göre
+- **Kişiselleştirilmiş Öneriler**: Sağlık durumunuza uygun diyet türleri
+- **Öncelik Sıralaması**: En uygun diyet türleri önce gösterilir
+
+### 🎨 Modern Kullanıcı Deneyimi
+- **Responsive Tasarım**: Mobil ve desktop uyumlu
+- **Glassmorphism UI**: Modern ve şık arayüz
+- **Pastel Renk Paleti**: Göz yormayan renkler
+- **Smooth Animasyonlar**: Kullanıcı dostu etkileşimler
+
+## 🚀 Teknoloji Stack
+
+- **Frontend**: Next.js 15 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **State Management**: Zustand
+- **Storage**: Local Storage (Persistent)
+- **Development**: ESLint, Prettier
+
+## 📦 Kurulum
+
+### Gereksinimler
+- Node.js 18+ 
+- npm veya yarn
+
+### Adımlar
+
+1. **Repository'yi klonlayın**
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/mertkahramanukten/makromind.git
+cd makromind
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. **Bağımlılıkları yükleyin**
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. **Development server'ı başlatın**
+```bash
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. **Tarayıcıda açın**
+```
+http://localhost:3000
+```
 
-## Learn More
+## 📱 Kullanım
 
-To learn more about Next.js, take a look at the following resources:
+### 1. Profil Bilgilerinizi Girin
+- Yaş, cinsiyet, boy, kilo
+- Hedef (kilo ver/koru/al)
+- Aktivite seviyesi (sedanter → atlet)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 2. Kan Değerlerinizi Ekleyin
+- Açlık Glukoz (mg/dL)
+- HbA1c (mg/dL)
+- LDL Kolesterol (mg/dL)
+- HDL Kolesterol (mg/dL)
+- Trigliserid (mg/dL)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 3. Planınızı Alın
+- Günlük kalori hedefi
+- Makro besin dağılımı
+- Kişiselleştirilmiş diyet önerileri
 
-## Deploy on Vercel
+## 🧮 Hesaplama Formülleri
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### BMR (Mifflin-St Jeor)
+```
+Erkek: BMR = 10 × kilo + 6.25 × boy - 5 × yaş + 5
+Kadın: BMR = 10 × kilo + 6.25 × boy - 5 × yaş - 161
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### TDEE
+```
+TDEE = BMR × Aktivite Çarpanı
+```
+
+### Aktivite Çarpanları
+- **Sedanter**: 1.2 (Hareketsiz)
+- **Hafif**: 1.375 (Haftada 1-3 gün egzersiz)
+- **Orta**: 1.55 (Haftada 3-5 gün egzersiz)
+- **Aktif**: 1.725 (Haftada 6-7 gün egzersiz)
+- **Atlet**: 1.9 (Günde 2+ kez egzersiz)
+
+### Hedef Kalori
+- **Kilo Ver**: TDEE × 0.85 (%15 kalori açığı)
+- **Koruma**: TDEE × 1.0 (Aynı kalori)
+- **Kilo Al**: TDEE × 1.10 (%10 kalori fazlası)
+
+### Makro Dağılımı
+- **Protein**: 1.6g/kg vücut ağırlığı
+- **Karbonhidrat**: Kalan kalorilerin %40'ı
+- **Yağ**: Kalan kalorilerin %35'i
+
+## 🥗 Diyet Önerileri
+
+### Diyet Türleri
+
+#### 🟢 Low GI Diyet
+- **Koşul**: HbA1c ≥ 5.7
+- **Faydalar**: Kan şekerini stabilize eder, uzun süreli tokluk sağlar
+
+#### 🔵 Akdeniz Diyeti  
+- **Koşul**: LDL ≥ 160 (öncelikli)
+- **Faydalar**: Kalp sağlığını korur, kolesterolü düşürür
+
+#### 🟠 Düşük Yağ Diyeti
+- **Koşul**: LDL ≥ 160
+- **Faydalar**: Kolesterol seviyelerini düşürür, kalp hastalığı riskini azaltır
+
+#### 🟣 Balanced Diyet
+- **Koşul**: Normal kan değerleri
+- **Faydalar**: Tüm besin gruplarını dengeli şekilde içerir
+
+#### 🩷 Intermittent Fasting (IF)
+- **Koşul**: Her durumda (ek seçenek)
+- **Faydalar**: Metabolizmayı hızlandırır, hücre yenilenmesini destekler
+
+## 🗂️ Proje Yapısı
+
+```
+makromind/
+├── src/
+│   ├── app/                    # Next.js App Router
+│   │   ├── page.tsx           # Landing sayfası
+│   │   ├── onboarding/        # Profil formu
+│   │   ├── labs/              # Kan değerleri formu
+│   │   └── plan/              # Sonuçlar sayfası
+│   ├── components/            # React bileşenleri
+│   │   ├── Field.tsx          # Form bileşenleri
+│   │   ├── MacroCard.tsx      # Makro kartları
+│   │   ├── DietCard.tsx       # Diyet kartları
+│   │   └── StepHeader.tsx     # Başlık bileşeni
+│   └── lib/                   # Utility fonksiyonları
+│       ├── types.ts           # TypeScript tipler
+│       ├── store.ts           # Zustand store
+│       └── calc.ts            # Hesaplama motoru
+├── public/                    # Statik dosyalar
+├── package.json
+├── tailwind.config.ts
+├── tsconfig.json
+└── next.config.ts
+```
+
+## 🧪 Test Senaryoları
+
+### Diyet Kuralları Testi
+```javascript
+// Normal değerler
+{ hba1c: 5.0, ldl: 100 } → ['Balanced Diyet', 'IF']
+
+// Yüksek HbA1c  
+{ hba1c: 6.0, ldl: 100 } → ['Low GI Diyet', 'Akdeniz Diyeti', 'IF']
+
+// Yüksek LDL
+{ hba1c: 5.0, ldl: 180 } → ['Akdeniz Diyeti', 'Düşük Yağ Diyeti', 'IF']
+
+// Kombine durum
+{ hba1c: 6.0, ldl: 180 } → ['Low GI Diyet', 'Akdeniz Diyeti', 'Düşük Yağ Diyeti', 'IF']
+```
+
+## 📊 Örnek Hesaplama
+
+**Profil**: 25 yaş, erkek, 175cm, 70kg, aktif, kilo verme hedefi
+**Kan Değerleri**: Normal
+
+**Sonuçlar**:
+- BMR: 1,741 kcal
+- TDEE: 3,003 kcal  
+- Hedef Kalori: 2,553 kcal
+- Protein: 112g (448 kcal, %18)
+- Karbonhidrat: 255g (1,021 kcal, %40)
+- Yağ: 99g (893 kcal, %35)
+
+## 🚀 Deployment
+
+### Vercel (Önerilen)
+```bash
+npm install -g vercel
+vercel
+```
+
+### Netlify
+```bash
+npm run build
+# dist/ klasörünü Netlify'a yükleyin
+```
+
+### Docker
+```bash
+docker build -t makromind .
+docker run -p 3000:3000 makromind
+```
+
+## 🤝 Katkıda Bulunma
+
+1. Fork edin
+2. Feature branch oluşturun (`git checkout -b feature/amazing-feature`)
+3. Commit edin (`git commit -m 'Add amazing feature'`)
+4. Push edin (`git push origin feature/amazing-feature`)
+5. Pull Request oluşturun
+
+## 📝 Lisans
+
+Bu proje MIT lisansı altında lisanslanmıştır. Detaylar için [LICENSE](LICENSE) dosyasına bakın.
+
+## ⚠️ Önemli Uyarılar
+
+- Bu uygulama genel bilgilendirme amaçlıdır
+- Tıbbi tavsiye yerine geçmez
+- Önemli sağlık kararları almadan önce mutlaka bir sağlık uzmanına danışın
+- Kan değerlerinizi düzenli olarak kontrol ettirin
+
+## 📞 İletişim
+
+- **Geliştirici**: Mert Kahramanukten
+- **GitHub**: [@mertkahramanukten](https://github.com/mertkahramanukten)
+- **Proje Linki**: [https://github.com/mertkahramanukten/makromind](https://github.com/mertkahramanukten/makromind)
+
+## 🙏 Teşekkürler
+
+- Next.js ekibine harika framework için
+- Tailwind CSS ekibine modern styling için
+- Zustand ekibine basit state management için
+- Tüm açık kaynak katkıda bulunanlara
+
+---
+
+**MakroMind ile sağlıklı beslenme yolculuğunuza başlayın! 🎯**
