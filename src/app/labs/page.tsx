@@ -29,7 +29,7 @@ export default function LabsPage() {
   const handleInputChange = (field: keyof LabResults, value: string) => {
     setFormData(prev => ({
       ...prev,
-      [field]: Number(value)
+      [field]: value === '' ? '' : Number(value)
     }));
     
     // Clear error when user starts typing

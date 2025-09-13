@@ -6,7 +6,7 @@ import { MacroCard } from '@/components/MacroCard';
 import { DietCard, dietTypes } from '@/components/DietCard';
 import { StepHeader } from '@/components/StepHeader';
 import { useAppStore } from '@/lib/store';
-import { calculateMacroPlan, calculateBMI, getBMICategory } from '@/lib/calc';
+import { calculateMacroPlan, calculateBMI, getBMICategory, testDietRules } from '@/lib/calc';
 import { MacroPlan, UserProfile, LabResults } from '@/lib/types';
 
 export default function PlanPage() {
@@ -27,6 +27,12 @@ export default function PlanPage() {
       const calculatedPlan = calculateMacroPlan(userProfile, labResults);
       setLocalMacroPlan(calculatedPlan);
       setMacroPlan(calculatedPlan); // Store'a kaydet
+      
+      // Diyet kurallarını test et (development için)
+      if (process.env.NODE_ENV === 'development') {
+        testDietRules();
+      }
+      
       setLoading(false);
     } catch (error) {
       console.error('Hesaplama hatası:', error);
@@ -60,10 +66,24 @@ export default function PlanPage() {
 
   // Diyet önerilerini öncelik sırasına göre düzenle
   const sortedDietRecommendations = macroPlan.dietRecommendations
-    .map(dietName => ({
-      name: dietName,
-      ...dietTypes[dietName as keyof typeof dietTypes]
-    }))
+    .map(dietName => {
+      const dietData = dietTypes[dietName];
+      if (!dietData) {
+        // Eğer diyet türü tanımlanmamışsa varsayılan değerler kullan
+        return {
+          name: dietName,
+          description: `${dietName} hakkında detaylı bilgi için doktorunuza danışın.`,
+          benefits: ['Sağlıklı beslenme', 'Dengeli besin alımı'],
+          color: 'purple' as const,
+          icon: '🍽️',
+          priority: 'low' as const,
+        };
+      }
+      return {
+        name: dietName,
+        ...dietData
+      };
+    })
     .sort((a, b) => {
       const priorityOrder = { high: 0, medium: 1, low: 2 };
       return priorityOrder[a.priority || 'low'] - priorityOrder[b.priority || 'low'];

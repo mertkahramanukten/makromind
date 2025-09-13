@@ -77,8 +77,14 @@ export function DietCard({ name, description, benefits, color, icon, priority = 
   );
 }
 
-// Diyet türleri için önceden tanımlanmış veriler
-export const dietTypes = {
+  // Diyet türleri için önceden tanımlanmış veriler
+export const dietTypes: Record<string, {
+  description: string;
+  benefits: string[];
+  color: 'pink' | 'blue' | 'green' | 'purple' | 'orange';
+  icon: string;
+  priority: 'high' | 'medium' | 'low';
+}> = {
   'Low GI Diyet': {
     description: 'Düşük glisemik indeksli besinlerle kan şekerini dengede tutar.',
     benefits: [

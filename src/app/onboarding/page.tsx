@@ -43,7 +43,9 @@ export default function OnboardingPage() {
   const handleInputChange = (field: keyof UserProfile, value: string) => {
     setFormData(prev => ({
       ...prev,
-      [field]: field === 'age' || field === 'height' || field === 'weight' ? Number(value) : value
+      [field]: field === 'age' || field === 'height' || field === 'weight' 
+        ? (value === '' ? '' : Number(value)) 
+        : value
     }));
     
     // Clear error when user starts typing

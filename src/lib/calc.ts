@@ -201,3 +201,42 @@ export function getBMICategory(bmi: number): string {
   if (bmi < 30) return 'Fazla Kilolu';
   return 'Obez';
 }
+
+/**
+ * Test fonksiyonu - diyet kurallarını test et
+ */
+export function testDietRules() {
+  const testCases = [
+    {
+      name: 'Normal değerler',
+      labResults: { fastingGlucose: 90, hba1c: 5.0, ldl: 100, hdl: 50, triglycerides: 120 },
+      expected: ['Balanced Diyet', 'Intermittent Fasting (IF)']
+    },
+    {
+      name: 'Yüksek HbA1c',
+      labResults: { fastingGlucose: 110, hba1c: 6.0, ldl: 100, hdl: 50, triglycerides: 120 },
+      expected: ['Low GI Diyet', 'Akdeniz Diyeti', 'Intermittent Fasting (IF)']
+    },
+    {
+      name: 'Yüksek LDL',
+      labResults: { fastingGlucose: 90, hba1c: 5.0, ldl: 180, hdl: 50, triglycerides: 120 },
+      expected: ['Akdeniz Diyeti', 'Düşük Yağ Diyeti', 'Intermittent Fasting (IF)']
+    },
+    {
+      name: 'Hem yüksek HbA1c hem LDL',
+      labResults: { fastingGlucose: 110, hba1c: 6.0, ldl: 180, hdl: 50, triglycerides: 120 },
+      expected: ['Low GI Diyet', 'Akdeniz Diyeti', 'Düşük Yağ Diyeti', 'Intermittent Fasting (IF)']
+    }
+  ];
+
+  console.log('🧪 Diyet Kuralları Test Sonuçları:');
+  testCases.forEach(testCase => {
+    const result = getDietRecommendations(testCase.labResults);
+    const passed = JSON.stringify(result) === JSON.stringify(testCase.expected);
+    console.log(`${passed ? '✅' : '❌'} ${testCase.name}: ${passed ? 'PASS' : 'FAIL'}`);
+    if (!passed) {
+      console.log(`   Beklenen: ${JSON.stringify(testCase.expected)}`);
+      console.log(`   Alınan: ${JSON.stringify(result)}`);
+    }
+  });
+}
