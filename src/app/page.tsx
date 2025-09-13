@@ -30,6 +30,16 @@ export default function Home() {
               Örnek Plan Görün
             </button>
           </div>
+          
+          {/* Admin Link - Hidden but accessible */}
+          <div className="text-center mt-4">
+            <button
+              onClick={() => router.push('/admin/diets')}
+              className="text-xs text-gray-400 hover:text-gray-600 transition-colors duration-200"
+            >
+              🛠️ Admin Panel
+            </button>
+          </div>
         </div>
 
         {/* Features */}
