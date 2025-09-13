@@ -60,15 +60,22 @@ export function Input({
   step,
   className = '' 
 }: InputProps) {
+  console.log('Input render - value:', value, 'type:', typeof value); // Debug log
+  
   // Value'yu güvenli şekilde string'e çevir
   const displayValue = value === null || value === undefined || value === '' ? '' : String(value);
+  
+  console.log('Display value:', displayValue); // Debug log
   
   return (
     <input
       type={type}
       placeholder={placeholder}
       value={displayValue}
-      onChange={(e) => onChange(e.target.value)}
+      onChange={(e) => {
+        console.log('Input onChange:', e.target.value); // Debug log
+        onChange(e.target.value);
+      }}
       min={min}
       max={max}
       step={step}
