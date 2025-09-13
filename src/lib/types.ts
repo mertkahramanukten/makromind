@@ -20,7 +20,31 @@ export interface LabResults {
 }
 
 export interface MacroPlan {
-  // Makro planı buraya eklenecek
+  bmr: number; // Basal Metabolic Rate
+  tdee: number; // Total Daily Energy Expenditure
+  targetCalories: number; // Hedef kalori
+  protein: {
+    grams: number;
+    calories: number;
+    percentage: number;
+  };
+  carbs: {
+    grams: number;
+    calories: number;
+    percentage: number;
+  };
+  fat: {
+    grams: number;
+    calories: number;
+    percentage: number;
+  };
+  dietRecommendations: string[];
+}
+
+export interface CalculationResult {
+  macroPlan: MacroPlan;
+  userProfile: UserProfile;
+  labResults: LabResults;
 }
 
 export interface AppState {
