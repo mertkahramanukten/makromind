@@ -13,13 +13,17 @@ export async function POST(request: NextRequest) {
   try {
     // Parse and validate request body
     const body = await request.json();
+    console.log('Received body:', JSON.stringify(body, null, 2));
     const validationResult = mealPlanRequestSchema.safeParse(body);
+    console.log('Validation result:', validationResult.success);
     
     if (!validationResult.success) {
+      console.log('Validation error:', validationResult.error);
       return NextResponse.json(
         { 
           error: 'Invalid request data',
-          details: validationResult.error.errors.map(err => `${err.path.join('.')}: ${err.message}`)
+          details: validationResult.error?.errors?.map(err => `${err.path.join('.')}: ${err.message}`) || ['Validation failed'],
+          received: body
         },
         { status: 400 }
       );

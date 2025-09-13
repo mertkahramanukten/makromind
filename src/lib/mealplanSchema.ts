@@ -3,7 +3,7 @@ import { MealPlanRequest, MealPlanResponse, MealItem, Meal, DayPlan } from './me
 
 // Base macros schema with positive number validation
 const macroSchema = z.object({
-  kcal: z.number().min(0, 'Kalori negatif olamaz'),
+  calories: z.number().min(0, 'Kalori negatif olamaz'),
   protein: z.number().min(0, 'Protein negatif olamaz'),
   carbs: z.number().min(0, 'Karbonhidrat negatif olamaz'),
   fat: z.number().min(0, 'Yağ negatif olamaz'),
