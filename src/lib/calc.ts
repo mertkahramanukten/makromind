@@ -1,4 +1,5 @@
 import { UserProfile, LabResults, MacroPlan, ActivityLevel, Goal } from './types';
+import { getAllDiets } from './dietTypes';
 
 // Aktivite çarpanları
 const ACTIVITY_MULTIPLIERS: Record<ActivityLevel, number> = {
@@ -107,31 +108,16 @@ export function calculateCarbsAndFat(
  * Diyet önerileri hesaplama
  */
 export function getDietRecommendations(labResults: LabResults): string[] {
+  // Şimdilik basit kurallar - tüm diyetleri göster
+  // Gelecekte lab sonuçlarına göre filtreleme yapılabilir
+  
+  const allDiets = getAllDiets();
   const recommendations: string[] = [];
-  const { hba1c, ldl } = labResults;
   
-  // HbA1c >= 5.7 → Diyabet riski
-  if (hba1c >= 5.7) {
-    recommendations.push('Low GI Diyet');
-    recommendations.push('Akdeniz Diyeti');
-  }
-  
-  // LDL >= 160 → Yüksek kolesterol
-  if (ldl >= 160) {
-    // Keto önerme, Akdeniz öncelikli
-    if (!recommendations.includes('Akdeniz Diyeti')) {
-      recommendations.unshift('Akdeniz Diyeti'); // En başa ekle
-    }
-    recommendations.push('Düşük Yağ Diyeti');
-  }
-  
-  // Diğer durumlar için Balanced ekle
-  if (recommendations.length === 0) {
-    recommendations.push('Balanced Diyet');
-  }
-  
-  // IF her zaman ekstra alternatif olarak ekle
-  recommendations.push('Intermittent Fasting (IF)');
+  // Öncelik sırasına göre tüm diyetleri ekle
+  allDiets.forEach(diet => {
+    recommendations.push(diet.key);
+  });
   
   return recommendations;
 }

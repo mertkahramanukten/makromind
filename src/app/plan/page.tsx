@@ -3,11 +3,12 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { MacroCard } from '@/components/MacroCard';
-import { DietCard, dietTypes } from '@/components/DietCard';
+import { DietCard } from '@/components/DietCard';
 import { StepHeader } from '@/components/StepHeader';
 import { Navigation } from '@/components/Navigation';
 import { useAppStore } from '@/lib/store';
 import { calculateMacroPlan, calculateBMI, getBMICategory, testDietRules } from '@/lib/calc';
+import { dietTypes } from '@/lib/dietTypes';
 import { MacroPlan, UserProfile, LabResults } from '@/lib/types';
 
 export default function PlanPage() {
@@ -67,28 +68,8 @@ export default function PlanPage() {
 
   // Diyet önerilerini öncelik sırasına göre düzenle
   const sortedDietRecommendations = macroPlan.dietRecommendations
-    .map(dietName => {
-      const dietData = dietTypes[dietName];
-      if (!dietData) {
-        // Eğer diyet türü tanımlanmamışsa varsayılan değerler kullan
-        return {
-          name: dietName,
-          description: `${dietName} hakkında detaylı bilgi için doktorunuza danışın.`,
-          benefits: ['Sağlıklı beslenme', 'Dengeli besin alımı'],
-          color: 'purple' as const,
-          icon: '🍽️',
-          priority: 'low' as const,
-        };
-      }
-      return {
-        name: dietName,
-        ...dietData
-      };
-    })
-    .sort((a, b) => {
-      const priorityOrder = { high: 0, medium: 1, low: 2 };
-      return priorityOrder[a.priority || 'low'] - priorityOrder[b.priority || 'low'];
-    });
+    .map(dietKey => dietTypes[dietKey])
+    .filter(diet => diet !== undefined);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50">
@@ -202,13 +183,8 @@ export default function PlanPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {sortedDietRecommendations.map((diet, index) => (
               <DietCard
-                key={index}
-                name={diet.name}
-                description={diet.description}
-                benefits={diet.benefits}
-                color={diet.color}
-                icon={diet.icon}
-                priority={diet.priority}
+                key={diet.key}
+                diet={diet}
               />
             ))}
           </div>

@@ -1,12 +1,9 @@
 'use client';
 
+import { DietType } from '@/lib/dietTypes';
+
 interface DietCardProps {
-  name: string;
-  description: string;
-  benefits: string[];
-  color: 'pink' | 'blue' | 'green' | 'purple' | 'orange';
-  icon: string;
-  priority?: 'high' | 'medium' | 'low';
+  diet: DietType;
 }
 
 const colorClasses = {
@@ -15,6 +12,9 @@ const colorClasses = {
   green: 'from-green-500 to-green-600 bg-green-50 border-green-200',
   purple: 'from-purple-500 to-purple-600 bg-purple-50 border-purple-200',
   orange: 'from-orange-500 to-orange-600 bg-orange-50 border-orange-200',
+  red: 'from-red-500 to-red-600 bg-red-50 border-red-200',
+  indigo: 'from-indigo-500 to-indigo-600 bg-indigo-50 border-indigo-200',
+  yellow: 'from-yellow-500 to-yellow-600 bg-yellow-50 border-yellow-200',
 };
 
 const priorityClasses = {
@@ -29,7 +29,9 @@ const priorityLabels = {
   low: 'Ek Seçenek',
 };
 
-export function DietCard({ name, description, benefits, color, icon, priority = 'low' }: DietCardProps) {
+export function DietCard({ diet }: DietCardProps) {
+  const { name, description, color, icon, priority, defaultMacros, carbCapGrams } = diet;
+
   return (
     <div className={`bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-6 border ${colorClasses[color].split(' ')[2]} hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 ${priorityClasses[priority]}`}>
       {/* Header */}
@@ -53,17 +55,28 @@ export function DietCard({ name, description, benefits, color, icon, priority = 
           <p className="text-gray-600 text-sm leading-relaxed">{description}</p>
         </div>
 
-        {/* Benefits */}
-        <div>
-          <h4 className="text-sm font-semibold text-gray-700 mb-2">Faydaları:</h4>
-          <ul className="space-y-1">
-            {benefits.map((benefit, index) => (
-              <li key={index} className="flex items-start space-x-2 text-sm text-gray-600">
-                <span className="text-green-500 mt-1">✓</span>
-                <span>{benefit}</span>
-              </li>
-            ))}
-          </ul>
+        {/* Macro Information */}
+        <div className="bg-gray-50 rounded-lg p-3">
+          <h4 className="text-sm font-semibold text-gray-700 mb-2">Varsayılan Makrolar:</h4>
+          <div className="grid grid-cols-3 gap-2 text-xs">
+            <div className="text-center">
+              <div className="font-medium text-blue-600">Protein</div>
+              <div className="text-gray-600">{(defaultMacros.proteinPct * 100).toFixed(0)}%</div>
+            </div>
+            <div className="text-center">
+              <div className="font-medium text-green-600">Karbonhidrat</div>
+              <div className="text-gray-600">{(defaultMacros.carbPct * 100).toFixed(0)}%</div>
+            </div>
+            <div className="text-center">
+              <div className="font-medium text-purple-600">Yağ</div>
+              <div className="text-gray-600">{(defaultMacros.fatPct * 100).toFixed(0)}%</div>
+            </div>
+          </div>
+          {carbCapGrams && (
+            <div className="mt-2 text-xs text-gray-500 text-center">
+              Günlük karbonhidrat limiti: {carbCapGrams}g
+            </div>
+          )}
         </div>
       </div>
 
@@ -76,73 +89,3 @@ export function DietCard({ name, description, benefits, color, icon, priority = 
     </div>
   );
 }
-
-  // Diyet türleri için önceden tanımlanmış veriler
-export const dietTypes: Record<string, {
-  description: string;
-  benefits: string[];
-  color: 'pink' | 'blue' | 'green' | 'purple' | 'orange';
-  icon: string;
-  priority: 'high' | 'medium' | 'low';
-}> = {
-  'Low GI Diyet': {
-    description: 'Düşük glisemik indeksli besinlerle kan şekerini dengede tutar.',
-    benefits: [
-      'Kan şekerini stabilize eder',
-      'Uzun süreli tokluk sağlar',
-      'İnsülin direncini azaltır',
-      'Kilo kontrolüne yardımcı olur'
-    ],
-    color: 'green' as const,
-    icon: '🥗',
-    priority: 'high' as const,
-  },
-  'Akdeniz Diyeti': {
-    description: 'Zeytinyağı, balık ve sebzelerle kalp sağlığını korur.',
-    benefits: [
-      'Kalp sağlığını korur',
-      'Kolesterolü düşürür',
-      'Antioksidan açısından zengin',
-      'Uzun yaşam ile ilişkili'
-    ],
-    color: 'blue' as const,
-    icon: '🐟',
-    priority: 'high' as const,
-  },
-  'Düşük Yağ Diyeti': {
-    description: 'Yağ alımını azaltarak kalp sağlığını iyileştirir.',
-    benefits: [
-      'Kolesterol seviyelerini düşürür',
-      'Kalp hastalığı riskini azaltır',
-      'Kilo vermeye yardımcı olur',
-      'Kardiyovasküler sağlığı iyileştirir'
-    ],
-    color: 'orange' as const,
-    icon: '🥕',
-    priority: 'medium' as const,
-  },
-  'Balanced Diyet': {
-    description: 'Tüm besin gruplarını dengeli şekilde içeren beslenme planı.',
-    benefits: [
-      'Tüm besin öğelerini sağlar',
-      'Sürdürülebilir yaşam tarzı',
-      'Enerji seviyesini korur',
-      'Genel sağlığı destekler'
-    ],
-    color: 'purple' as const,
-    icon: '⚖️',
-    priority: 'medium' as const,
-  },
-  'Intermittent Fasting (IF)': {
-    description: 'Belirli zaman aralıklarında yeme ve oruç tutma döngüsü.',
-    benefits: [
-      'Metabolizmayı hızlandırır',
-      'Hücre yenilenmesini destekler',
-      'İnsülin duyarlılığını artırır',
-      'Uzun ömür ile ilişkili'
-    ],
-    color: 'pink' as const,
-    icon: '⏰',
-    priority: 'low' as const,
-  },
-};
