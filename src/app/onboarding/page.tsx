@@ -11,10 +11,10 @@ export default function OnboardingPage() {
   const { setUserProfile } = useAppStore();
   
   const [formData, setFormData] = useState<Partial<UserProfile>>({
-    age: '',
+    age: undefined,
     gender: '',
-    height: '',
-    weight: '',
+    height: undefined,
+    weight: undefined,
     goal: '',
     activityLevel: '',
   });
@@ -44,7 +44,7 @@ export default function OnboardingPage() {
     setFormData(prev => ({
       ...prev,
       [field]: field === 'age' || field === 'height' || field === 'weight' 
-        ? (value === '' ? '' : Number(value)) 
+        ? (value === '' ? undefined : Number(value)) 
         : value
     }));
     
@@ -116,7 +116,7 @@ export default function OnboardingPage() {
                 <Input
                   type="number"
                   placeholder="25"
-                  value={formData.age || ''}
+                  value={formData.age ?? ''}
                   onChange={(value) => handleInputChange('age', value)}
                   min={1}
                   max={120}
@@ -138,7 +138,7 @@ export default function OnboardingPage() {
                 <Input
                   type="number"
                   placeholder="175"
-                  value={formData.height || ''}
+                  value={formData.height ?? ''}
                   onChange={(value) => handleInputChange('height', value)}
                   min={50}
                   max={250}
@@ -150,7 +150,7 @@ export default function OnboardingPage() {
                 <Input
                   type="number"
                   placeholder="70"
-                  value={formData.weight || ''}
+                  value={formData.weight ?? ''}
                   onChange={(value) => handleInputChange('weight', value)}
                   min={20}
                   max={300}

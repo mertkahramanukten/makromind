@@ -64,7 +64,7 @@ export function Input({
     <input
       type={type}
       placeholder={placeholder}
-      value={value}
+      value={value === '' || value === null || value === undefined ? '' : String(value)}
       onChange={(e) => onChange(e.target.value)}
       min={min}
       max={max}

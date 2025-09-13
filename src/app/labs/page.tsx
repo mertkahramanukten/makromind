@@ -11,11 +11,11 @@ export default function LabsPage() {
   const { setLabResults, userProfile } = useAppStore();
   
   const [formData, setFormData] = useState<Partial<LabResults>>({
-    fastingGlucose: '',
-    hba1c: '',
-    ldl: '',
-    hdl: '',
-    triglycerides: '',
+    fastingGlucose: undefined,
+    hba1c: undefined,
+    ldl: undefined,
+    hdl: undefined,
+    triglycerides: undefined,
   });
   
   const [errors, setErrors] = useState<Partial<Record<keyof LabResults, string>>>({});
@@ -29,7 +29,7 @@ export default function LabsPage() {
   const handleInputChange = (field: keyof LabResults, value: string) => {
     setFormData(prev => ({
       ...prev,
-      [field]: value === '' ? '' : Number(value)
+      [field]: value === '' ? undefined : Number(value)
     }));
     
     // Clear error when user starts typing
@@ -97,7 +97,7 @@ export default function LabsPage() {
                   <Input
                     type="number"
                     placeholder="90"
-                    value={formData.fastingGlucose || ''}
+                    value={formData.fastingGlucose ?? ''}
                     onChange={(value) => handleInputChange('fastingGlucose', value)}
                     min={50}
                     max={500}
@@ -115,7 +115,7 @@ export default function LabsPage() {
                   <Input
                     type="number"
                     placeholder="5.2"
-                    value={formData.hba1c || ''}
+                    value={formData.hba1c ?? ''}
                     onChange={(value) => handleInputChange('hba1c', value)}
                     min={3}
                     max={15}
@@ -133,7 +133,7 @@ export default function LabsPage() {
                   <Input
                     type="number"
                     placeholder="100"
-                    value={formData.ldl || ''}
+                    value={formData.ldl ?? ''}
                     onChange={(value) => handleInputChange('ldl', value)}
                     min={50}
                     max={300}
@@ -151,7 +151,7 @@ export default function LabsPage() {
                   <Input
                     type="number"
                     placeholder="50"
-                    value={formData.hdl || ''}
+                    value={formData.hdl ?? ''}
                     onChange={(value) => handleInputChange('hdl', value)}
                     min={10}
                     max={150}
@@ -169,7 +169,7 @@ export default function LabsPage() {
                   <Input
                     type="number"
                     placeholder="120"
-                    value={formData.triglycerides || ''}
+                    value={formData.triglycerides ?? ''}
                     onChange={(value) => handleInputChange('triglycerides', value)}
                     min={20}
                     max={1000}
